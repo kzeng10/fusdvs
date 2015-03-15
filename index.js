@@ -6,8 +6,10 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
-var listenPort = app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);
-var listenIP = app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
+var listenPort = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+var listenIP = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+app.set('port', listenPort);
+app.set('ipaddr', listenIP);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
