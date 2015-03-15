@@ -1,0 +1,29 @@
+<div>
+	<select name="selectPerson" id="selectPerson" ng-model='selectedPerson'>
+		<option ng-repeat='name in peopleDir' value="{{name}}">{{name}}</option>
+	</select>
+	<button ng-click='add(selectedPerson)'>Add</button>
+	<hr>
+	<h2>Speaking</h2>
+	<table>
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Remove</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat='person in people'>
+				<td>{{ person.name }}</td>
+				<td><a href="#"  ng-click='remove($index)'>Remove me!</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	{{people}}
+	<div ng-if='people.length === 0'>
+		<h3>No one!</h3>
+	</div>
+	<hr>
+
+</div>
