@@ -6,8 +6,8 @@ var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
-app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);
-app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
+var listenPort = app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 3000);
+var listenIP = app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -46,7 +46,7 @@ app.get('*', function(req, res){
     res.sendFile(__dirname + '/app/index.html', res);
 });
 
-http.listen(3000, function () {
+http.listen(listenPort, listenIP, function () {
     'use strict';
     console.log('Express server listening on  IP: ' + app.get('ipaddr') + ' and port ' + app.get('port'));
 });
