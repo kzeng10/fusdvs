@@ -6,12 +6,16 @@ This is the new and improved version of the original web app that runs on Google
 
 This is also my first app made with Express, Angular, and Socket.io. (and first time using any of them)
 
+Running on Openshift. It's such a hassle to deal with right now since it creates a separate local repo that I have to use to push any changes, so any changes I make I have to copy/paste them from here to that repo. Ugh.
+
 Version 0.01, 3/15/2015:
+
 	- Configured working Express server with valid environment variables and basic routes
 	- Configured basic views and controllers with Angular
 	- Got socket.io working!
 
 To do:
+
 	- Styling and formatting (Katherine and Valerie help again) (Bootstrap this time?)
 	- Press enter key to add your name (jQuery?)
 	- Authentication for removing people from the list
