@@ -13,7 +13,8 @@ app.set('ipaddr', listenIP);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-var speak = [{name: 'bob'},{name: 'tom'}];
+var speak = [];
+var history = []; //only add to this list
 
 app.get('/js/:file', function(req, res){
     res.sendFile(__dirname + '/js/'+req.params.file, res);
@@ -31,15 +32,37 @@ app.post('/people', function(req, res) {
 	console.log(req.body);
 	var person = req.body;
     speak.push(person); //json
+    history.push(person);
     io.emit('personAdder', req.body);
     return res.sendStatus(200);
 });
 
+app.get('/history', function(req, res) {
+	res.send(history);
+	console.log("Sent history!");
+})
+
+app.post('/history', function(req, res) {
+	var msg = req.body;
+	if(msg.clear) {
+		history = [];
+		console.log("Cleared history");
+		io.emit('personRemover', "historyClear");
+	}
+})
+
 app.post('/remove', function(req, res) { //receives index number
-	var id = req.body.index;
-	// console.log(isSpeaking);
-	speak.splice(id, 1);
-	io.emit('personRemover', id);
+	if(req.body.clearAll) {
+		speak = [];
+		console.log("Removed all");
+		io.emit('personRemover', "all");
+	}
+	else{	
+		var id = req.body.index;
+		console.log(id);
+		speak.splice(id, 1);
+		io.emit('personRemover', id);
+	}
 	return res.sendStatus(200);
 });
 

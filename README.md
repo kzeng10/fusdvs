@@ -6,17 +6,35 @@ This is the new and improved version of the original web app that runs on Google
 
 This is also my first app made with Express, Angular, and Socket.io. (and first time using any of them)
 
-Running on Openshift. It's such a hassle to deal with right now since it creates a separate local repo that I have to use to push any changes, so any changes I make I have to copy/paste them from here to that repo. Ugh.
+This app is running on Openshift. It's such a hassle to deal with right now since it creates a separate local repo that I have to use to push any changes, so every time I make a change I have to copy paste those files from this repo into that one. Ugh.
+
+You can find it running on OpenShift <a href='http://fusdvs-kzeng.rhcloud.com'>here</a>.
+
+To run on your local machine:
+
+1. Make sure you have <b>node.js</b> and <b>npm</b> installed (get it from the <a href='http://nodejs.org'>Node.js website</a>, version 0.10 and up recommended)
+2. Fork this repo, `cd` into the main directory and run `npm install`
+3. After it's done installing all the dependencies, run `node index.js`
+4. Go to `localhost:3000` in your web browser!
+
+As an added bonus, I would recommend you to get <a href='https://github.com/remy/nodemon'>nodemon</a>, which is really useful if you plan on tweaking/modifying this web app (which you probably would be doing if you're running this on your local machine).
+
+Version 0.02, 3/16,2015:
+- Added history table and time stamps
+- Hit enter to submit name
+- Includes both dropdown menu and text entry for names not in the list
+- Prompt user before removing name from list
+- Clear all and clear history buttons with prompting
 
 Version 0.01, 3/15/2015:
 
-	- Configured working Express server with valid environment variables and basic routes
-	- Configured basic views and controllers with Angular
-	- Got socket.io working!
+- Configured working Express server with valid environment variables and basic routes
+- Configured basic views and controllers with Angular
+- Got socket.io working!
+- Includes list of JSON objects of all the people in line to speak just for reference
 
 To do:
 
-	- Styling and formatting (Katherine and Valerie help again) (Bootstrap this time?)
-	- Press enter key to add your name (jQuery?)
-	- Authentication for removing people from the list
-	- Or, put the list of people in a separate admin page (with password) and adding names to another page
+- Styling and formatting (Katherine and Valerie help again) (Bootstrap this time?)
+- Authentication for removing people from the list
+- Or, put the list of people in a separate admin page (with password) and adding names to another page

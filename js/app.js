@@ -9,23 +9,44 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	.controller('TestCtrl', ['$scope', "speak", 'socketio', function ($scope, speak, socketio) {
 		'use strict';
 		$scope.people = speak.query();
+		$scope.history = speak.queryHistory();
 		$scope.peopleDir = ['Person1','Person2','Person3'];
-		$scope.selectedPerson = $scope.peopleDir[0];
-		console.log($scope.selectedPerson);
+		// $scope.selectedPerson = $scope.peopleDir[0];
+		$scope.selectedPerson = ''; 		//text input or dropdown menu?
 		$scope.remove = function(index) {
-			speak.remove(index);
-			// $scope.people.splice(index, 1);
+			if(confirm("Would you like to remove " + $scope.people[index].name + "?")) {
+				speak.remove(index);
+			}
 		}
 		$scope.add = function(name) {
-			// console.log(name);
-			var newPerson = {name: name};
+			var time = new Date();
+			var newPerson = {name: name, time: time.toLocaleTimeString()};
 			speak.save(newPerson);
+		}
+		$scope.clearAll = function() {
+			if(confirm("Would you like to clear the list?")) {
+				speak.clearAll();
+			}
+		}
+		$scope.clearHistory = function() {
+			if(confirm("Would you like to clear the history?")) {
+				speak.clearHistory();
+			}
 		}
 		socketio.on('personAdder', function (person) {
             $scope.people.push(person);
+            $scope.history.push(person);
         });
         socketio.on('personRemover', function(index) {
-        	$scope.people.splice(index, 1);
+        	if(index == "all") {
+        		$scope.people = [];
+        	}
+        	else if(index == "historyClear") {
+        		$scope.history = [];
+        	}
+        	else{
+        		$scope.people.splice(index, 1);
+        	}
         })
 	}])
 	// From http://briantford.com/blog/angular-socket-io
@@ -54,4 +75,5 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			}
 		};
 	}]);
+
 	

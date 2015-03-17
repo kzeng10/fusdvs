@@ -2,19 +2,22 @@
 	<select name="selectPerson" id="selectPerson" ng-model='selectedPerson'>
 		<option ng-repeat='name in peopleDir' value="{{name}}">{{name}}</option>
 	</select>
-	<button ng-click='add(selectedPerson)'>Add</button>
+	<input type="text" ng-model='selectedPerson' placeholder="Enter your name here if it's not in the list." size='40'>
+	<button ng-click='add(selectedPerson)' id='add'>Add</button>
 	<hr>
 	<h2>Speaking</h2>
+	<button ng-click='clearAll()'>Clear All</button>
 	<table>
 		<thead>
 			<tr>
 				<td>Name</td>
-				<td>Remove</td>
+				<td>Time</td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat='person in people'>
 				<td>{{ person.name }}</td>
+				<td>{{ person.time }}</td>
 				<td><a href="#"  ng-click='remove($index)'>Remove me!</a></td>
 			</tr>
 		</tbody>
@@ -25,5 +28,20 @@
 		<h3>No one!</h3>
 	</div>
 	<hr>
-
+	<h3>History</h3>
+	<button ng-click='clearHistory()'>Clear History</button>
+	<table>
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Time</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat='person in history'>
+				<td>{{ person.name }}</td>
+				<td>{{ person.time }}</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
