@@ -1,11 +1,27 @@
-<div>
-	<select name="selectPerson" id="selectPerson" ng-model='selectedPerson'>
-		<option ng-repeat='name in peopleDir' value="{{name}}">{{name}}</option>
-	</select>
-	<input type="text" ng-model='selectedPerson' placeholder="Enter your name here if it's not in the list." size='40'>
-	<button ng-click='add(selectedPerson)' id='add'>Add</button>
+<div class="container">
+	<div class="row">
+		<h1 class="text-center">FUSD Speaking Indicator System</h1>
+	</div>
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-2">
+			<select name="selectPerson" id="selectPerson" ng-model='selectedPerson' class="form-control">
+				<option ng-repeat='name in peopleDir' value="{{name}}">{{name}}</option>
+			</select>
+		</div>
+
+		<div class="col-md-4">
+			<input type="text" ng-model='selectedPerson' placeholder="Enter your name here if it's not in the list." class="form-control">
+		</div>
+		
+		<button ng-click='add(selectedPerson)' id='add' class="btn btn-default">Add</button>
+	</div>
+	
 	<hr>
-	<h2>Speaking</h2>
+
+	<div class="row">
+		<h1>Speaking</h1>
+	</div>
 	<button ng-click='clearAll()'>Clear All</button>
 	<table>
 		<thead>
@@ -23,7 +39,7 @@
 		</tbody>
 	</table>
 	<br>
-	{{people}}
+	<!-- {{people}} -->
 	<div ng-if='people.length === 0'>
 		<h3>No one!</h3>
 	</div>

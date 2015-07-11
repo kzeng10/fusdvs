@@ -17,22 +17,22 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			if(confirm("Would you like to remove " + $scope.people[index].name + "?")) {
 				speak.remove(index);
 			}
-		}
+		};
 		$scope.add = function(name) {
 			var time = new Date();
 			var newPerson = {name: name, time: time.toLocaleTimeString()};
 			speak.save(newPerson);
-		}
+		};
 		$scope.clearAll = function() {
 			if(confirm("Would you like to clear the list?")) {
 				speak.clearAll();
 			}
-		}
+		};
 		$scope.clearHistory = function() {
 			if(confirm("Would you like to clear the history?")) {
 				speak.clearHistory();
 			}
-		}
+		};
 		socketio.on('personAdder', function (person) {
             $scope.people.push(person);
             $scope.history.push(person);

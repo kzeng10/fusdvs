@@ -10,8 +10,8 @@ var listenPort = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var listenIP = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 app.set('port', listenPort);
 app.set('ipaddr', listenIP);
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 var speak = [];
 var history = []; //only add to this list
@@ -40,7 +40,7 @@ app.post('/people', function(req, res) {
 app.get('/history', function(req, res) {
 	res.send(history);
 	console.log("Sent history!");
-})
+});
 
 app.post('/history', function(req, res) {
 	var msg = req.body;
