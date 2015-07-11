@@ -37,7 +37,7 @@
 
   "private": true,
   "scripts": {
-    "start": "node index.js"
+    "start": "DEBUG=* nodemon index.js"
   },
   "main": "index.js"
 }
