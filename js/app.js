@@ -20,7 +20,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		};
 		$scope.add = function(name) {
 			var time = new Date();
-			var newPerson = {name: name, time: time.toLocaleTimeString()};
+			var newPerson = {name: name, time: time.toLocaleTimeString() + " on " + time.toLocaleDateString()};
 			speak.save(newPerson);
 		};
 		$scope.clearAll = function() {
