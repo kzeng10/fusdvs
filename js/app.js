@@ -10,7 +10,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		'use strict';
 		$scope.people = speak.query();
 		$scope.history = speak.queryHistory();
-		$scope.peopleDir = ['Person1','Person2','Person3'];
+		$scope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
 		// $scope.selectedPerson = $scope.peopleDir[0];
 		$scope.selectedPerson = ''; 		//text input or dropdown menu?
 		$scope.remove = function(index) {
