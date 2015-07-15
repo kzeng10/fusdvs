@@ -6,8 +6,6 @@ This is the new and improved version of the original web app that runs on Google
 
 This is also my first app made with Express, Angular, and Socket.io. (and first time using any of them)
 
-This app is running on Openshift. It's such a hassle to deal with right now since it creates a separate local repo that I have to use to push any changes, so every time I make a change I have to copy paste those files from this repo into that one. Ugh.
-
 You can find it running on OpenShift <a href='http://fusdvs-kzeng.rhcloud.com'>here</a>.
 
 To run on your local machine:
