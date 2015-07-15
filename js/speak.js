@@ -1,9 +1,11 @@
-angular.module('testAppdata', ['ngResource']).factory('speak', ['$resource', function($resource) {
+angular.module('testAppdata', ['ngResource']).factory('speak', ['$resource', '$location', function ($resource, $location) {
     'use strict';
     
-    var server = $resource('/people');
-    var history = $resource('/history');
-    var deleteurl = $resource('/remove');
+    var channel = $location.search().channel || 'default';
+    var server = $resource('/people', {channel:channel});
+    var history = $resource('/history', {channel:channel});
+    var deleteurl = $resource('/remove', {channel:channel});
+    
     return {
 
         save: function (person) {
@@ -17,6 +19,10 @@ angular.module('testAppdata', ['ngResource']).factory('speak', ['$resource', fun
 
         queryHistory: function() {
             return history.query();
+        },
+
+        queryDefaultChannel: function() {
+            return defaultChannel;
         },
 
         clearHistory: function() {

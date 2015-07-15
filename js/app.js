@@ -6,12 +6,12 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			.otherwise({redirectTo:'/'});
 			$locationProvider.html5Mode(true);
 		})
-	.controller('TestCtrl', ['$scope', "speak", 'socketio', function ($scope, speak, socketio) {
+	.controller('TestCtrl', ['$scope', '$location', "speak", 'socketio', function ($scope, $location, speak, socketio) {
 		'use strict';
+		$scope.channel = $location.search().channel || 'default';
 		$scope.people = speak.query();
 		$scope.history = speak.queryHistory();
 		$scope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
-		// $scope.selectedPerson = $scope.peopleDir[0];
 		$scope.selectedPerson = ''; 		//text input or dropdown menu?
 		$scope.remove = function(index) {
 			if(confirm("Would you like to remove " + $scope.people[index].name + "?")) {
@@ -33,11 +33,11 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				speak.clearHistory();
 			}
 		};
-		socketio.on('personAdder', function (person) {
+		socketio.on('personAdder_'+$scope.channel, function (person) {
             $scope.people.push(person);
             $scope.history.push(person);
         });
-        socketio.on('personRemover', function(index) {
+        socketio.on('personRemover_'+$scope.channel, function(index) {
         	if(index == "all") {
         		$scope.people = [];
         	}
