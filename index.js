@@ -41,6 +41,7 @@ app.get('/history', function(req, res) {
 	res.send(history);
 	console.log("Sent history!");
 });
+//comment
 
 app.post('/history', function(req, res) {
 	var msg = req.body;
