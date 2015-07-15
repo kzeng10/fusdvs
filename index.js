@@ -13,7 +13,7 @@ app.set('ipaddr', listenIP);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var defaultChannel = 1;
+var defaultChannel = 'default';
 var speak = {};
 var history = {}; 
 

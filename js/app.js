@@ -8,7 +8,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		})
 	.controller('TestCtrl', ['$scope', '$location', "speak", 'socketio', function ($scope, $location, speak, socketio) {
 		'use strict';
-		$scope.channel = $location.search().channel || 1;
+		$scope.channel = $location.search().channel || 'default';
 		$scope.people = speak.query();
 		$scope.history = speak.queryHistory();
 		$scope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];

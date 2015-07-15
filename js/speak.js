@@ -1,7 +1,7 @@
 angular.module('testAppdata', ['ngResource']).factory('speak', ['$resource', '$location', function ($resource, $location) {
     'use strict';
     
-    var channel = $location.search().channel || 1;
+    var channel = $location.search().channel || 'default';
     var server = $resource('/people', {channel:channel});
     var history = $resource('/history', {channel:channel});
     var deleteurl = $resource('/remove', {channel:channel});
