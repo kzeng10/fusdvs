@@ -19,12 +19,15 @@ To run on your local machine:
 
 As an added bonus, I would recommend you to get <a href='https://github.com/remy/nodemon'>nodemon</a>, which is really useful if you plan on tweaking/modifying this web app (which you probably would be doing if you're running this on your local machine).
 
+Version 0.04, 7/15/2015:
+- Added channels, done by a url param
+
 Version 0.03, 7/14/2015:
 - Did basic bootstrap styling
 - Made add button bigger
 - decided to stop being lazy and finish this up
 
-Version 0.02, 3/16,2015:
+Version 0.02, 3/16/2015:
 - Added history table and time stamps
 - Hit enter to submit name
 - Includes both dropdown menu and text entry for names not in the list
@@ -39,6 +42,9 @@ Version 0.01, 3/15/2015:
 - Includes list of JSON objects of all the people in line to speak just for reference
 
 To do:
-- Channels
-- Authentication for removing people from the list
+- Admin permissions
+	- Authentication for removing people from the list
+	- Password-protected channels
+- Channel-specific lists of people (ability to add people to the list)
+- Mobile-friendly...
 - Or, put the list of people in a separate admin page (with password) and adding names to another page
