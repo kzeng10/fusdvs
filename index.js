@@ -13,8 +13,9 @@ app.set('ipaddr', listenIP);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var speak = [];
-var history = []; //only add to this list
+var defaultChannel = 1;
+var speak = {};
+var history = {}; 
 
 app.get('/js/:file', function(req, res){
     res.sendFile(__dirname + '/js/'+req.params.file, res);
@@ -22,47 +23,60 @@ app.get('/js/:file', function(req, res){
 app.get('/partials/:file', function(req, res){
     res.sendFile(__dirname + '/app/partials/'+req.params.file, res);
 });
+app.get('/defaultChannel', function(req, res) {
+	res.send({defaultChannel: defaultChannel});
+});
 
 app.get('/people', function(req, res) {
-	res.send(speak);
+	var channel = req.query.channel || defaultChannel;
+	if(!speak[channel]) {
+		speak[channel] = [];
+	}
+	res.send(speak[channel]);
 	console.log("Sent!");
 });
 
 app.post('/people', function(req, res) {
+	var channel = req.query.channel || defaultChannel;
 	console.log(req.body);
 	var person = req.body;
-    speak.push(person); //json
-    history.push(person);
-    io.emit('personAdder', req.body);
+    speak[channel].push(person);
+    history[channel].push(person);
+    io.emit('personAdder_'+channel,req.body);
     return res.sendStatus(200);
 });
 
 app.get('/history', function(req, res) {
-	res.send(history);
+	var channel = req.query.channel || defaultChannel;
+	if(!history[channel]) {
+		history[channel] = [];
+	}
+	res.send(history[channel]);
 	console.log("Sent history!");
 });
-//comment
 
 app.post('/history', function(req, res) {
+	var channel = req.query.channel || defaultChannel;
 	var msg = req.body;
 	if(msg.clear) {
-		history = [];
+		history[channel] = [];
 		console.log("Cleared history");
-		io.emit('personRemover', "historyClear");
+		io.emit('personRemover_'+channel, "historyClear");
 	}
-})
+});
 
 app.post('/remove', function(req, res) { //receives index number
+	var channel = req.query.channel || defaultChannel;
 	if(req.body.clearAll) {
-		speak = [];
+		speak[channel] = [];
 		console.log("Removed all");
-		io.emit('personRemover', "all");
+		io.emit('personRemover_'+channel, "all");
 	}
 	else{	
 		var id = req.body.index;
 		console.log(id);
-		speak.splice(id, 1);
-		io.emit('personRemover', id);
+		speak[channel].splice(id, 1);
+		io.emit('personRemover_'+channel, id);
 	}
 	return res.sendStatus(200);
 });
