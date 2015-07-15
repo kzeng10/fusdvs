@@ -19,6 +19,7 @@ As an added bonus, I would recommend you to get <a href='https://github.com/remy
 
 Version 0.04, 7/15/2015:
 - Added channels, done by a url param
+- Modified spacing
 
 Version 0.03, 7/14/2015:
 - Did basic bootstrap styling
