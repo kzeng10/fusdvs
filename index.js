@@ -18,7 +18,12 @@ var speak = {};
 var history = {}; 
 
 //dev purposes only
-require('./secret.js');
+try{
+	require('./secret.js');
+} catch(e) {
+	console.log('In production, Memcachier keys are already in env');
+}
+
 
 var memcachier = require('memjs').Client.create(); //channel:pwhash
 io.on('connection', function (socket) {
