@@ -15,15 +15,6 @@
 	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha512.js"></script>
 	<script type='text/javascript' src='js/app.js'></script>
 	<script type='text/javascript' src='js/speak.js'></script>
-	<script>
-		$(document).keypress(function (e){
-			var keycode = (!!e.keyCode ? e.keyCode : e.which).toString();
-			if(keycode === '13' && !!$('#name').value){
-				console.log('You pressed a "enter" key in somewhere');
-				$('#add').click();
-			}
-		});
-	</script>
 </head>
 <body ng-controller='TestCtrl'>
 	<div ng-view></div>

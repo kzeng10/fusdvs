@@ -124,7 +124,21 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				});
 			}
 		};
-    });
+    })
+	.directive('onEnter', ['$document', function ($document) {
+		return function (scope, element, attrs) {
+	        $document.bind("keydown keypress", function (e) {
+	        	var keycode = (!!e.keyCode ? e.keyCode : e.which).toString();
+	            if(keycode === '13' && !!scope.selectedPerson) {
+	                scope.$apply(function (){
+	                    scope.$eval(attrs.onEnter);
+	                });
+
+	                e.preventDefault();
+	            }
+	        });
+	    };
+	}]);
 	
 
 	
