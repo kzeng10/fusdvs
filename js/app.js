@@ -8,7 +8,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		})
 	.controller('TestCtrl', ['$scope', '$location', "speak", 'socketio', '$timeout', function ($scope, $location, speak, socketio, $timeout) {
 		'use strict';
-		$scope.authorized = false;
+		$scope.authorized = false; //hasPassword()
+		$scope.password = undefined;
 		$scope.showAlert = false;
 		$scope.channel = $location.search().channel || 'default';
 		$scope.people = speak.query();
@@ -42,6 +43,9 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				$scope.showAlert = false;
 			}, 5000);
 		};
+		$scope.retrievePW = function() {
+			socketio.emit('pw', {msg:'check', channel:$scope.channel});
+		};
 		socketio.on('personAdder_'+$scope.channel, function (person) {
             $scope.people.push(person);
             $scope.history.push(person);
@@ -56,6 +60,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
         	else{
         		$scope.people.splice(index, 1);
         	}
+        });
+        socketio.on('pw', function(val) {
+        	$scope.password = val;
+        	$scope.authorized = !!!val;
         });
 
 	}])

@@ -17,25 +17,32 @@ var defaultChannel = 'default';
 var speak = {};
 var history = {}; 
 
+//dev purposes only
+require('./secret.js');
+
 var memcachier = require('memjs').Client.create(); //channel:pwhash
-// io.on('pw', function(msg, hash, channel) {
-// 	console.log('received');
-// 	if(msg === 'new') {
-// 		memcachier.set(channel, hash, function(err, val) {
-// 			if(err) {
-// 				console.log(err);
-// 			}
-// 			return;
-// 		}, 500);
-// 	}
-// 	if(msg === 'check') {
-// 		console.log('checking db');
-// 		var check = memcachier.get(channel, function(err, val) {
-// 			io.emit('pw', val);
-// 		}, 500);
-// 		return;
-// 	}
-// });
+io.on('connection', function (socket) {
+	socket.on('pw', function(res) {
+		if(res.msg === 'new') {
+			memcachier.set(res.channel, res.hash, function(err, val) {
+				if(err) {
+					console.log(err);
+				}
+				return;
+			}, 500);
+		}
+		if(res.msg === 'check') {
+			console.log('checking db');
+			var check = memcachier.get(res.channel, function(err, val) {
+				if(err) {
+					console.log(err);
+				}
+				io.emit('pw', val);
+			}, 500);
+			return;
+		}
+	});
+});
 
 app.get('/js/:file', function(req, res){
     res.sendFile(__dirname + '/js/'+req.params.file, res);

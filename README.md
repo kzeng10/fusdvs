@@ -44,6 +44,7 @@ To do:
 - Admin permissions
 	- Authentication for removing people from the list
 	- Password-protected channels
+		- option to add password to new channels
 - Channel-specific lists of people (ability to add people to the list)
 - Mobile-friendly...
 - Or, put the list of people in a separate admin page (with password) and adding names to another page
