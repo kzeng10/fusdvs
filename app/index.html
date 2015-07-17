@@ -18,11 +18,10 @@
 	<script>
 		$(document).keypress(function (e){
 			var keycode = (!!e.keyCode ? e.keyCode : e.which).toString();
-			if(keycode === '13' && $('#name').value !== ''){
+			if(keycode === '13' && !!$('#name').value){
 				console.log('You pressed a "enter" key in somewhere');
 				$('#add').click();
 			}
-		 
 		});
 	</script>
 </head>
