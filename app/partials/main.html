@@ -103,13 +103,13 @@
 	<div class="row">
 		<p class="text-center">Hint: click a person's name to remove them from the list.</p>
 	</div>
-	
+
 	<style>
 	.modal-backdrop {
 		opacity: 1 !important;
 	}
 	</style>
-	<modal title="Enter password" class='text-center' visible="true">
+	<modal title="Enter password" visible='!authorized' class='text-center' id='myModal'>
 	    <form role="form" ng-submit="onSubmit()">
 	      	<div class="form-group">
 	        	<label for="password">Password</label>
