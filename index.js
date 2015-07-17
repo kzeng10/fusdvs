@@ -16,9 +16,24 @@ app.use(bodyParser.json());
 var defaultChannel = 'default';
 var speak = {};
 var history = {}; 
-var passwords = {
-	"locked": "password"
-}; //channel:password
+
+var memcachier = require('memjs').Client.create(); //channel:pwhash
+io.on('pw', function(msg, hash, channel) {
+	if(msg === 'new') {
+		memcachier.set(channel, hash, function(err, val) {
+			if(err) {
+				console.log(err);
+			}
+			return;
+		}, 500);
+	}
+	if(msg === 'check') {
+		var check = memcachier.get(channel, function(err, val) {
+			io.emit('pw', val);
+		}, 500);
+		return;
+	}
+});
 
 app.get('/js/:file', function(req, res){
     res.sendFile(__dirname + '/js/'+req.params.file, res);

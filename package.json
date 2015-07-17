@@ -30,7 +30,8 @@
     "angular": "latest",
     "angular-route": "latest",
     "angular-resource": "latest",
-    "body-parser": "latest"
+    "body-parser": "latest",
+    "memjs": "latest"
   },
   "devDependencies": {},
   "bundleDependencies": [],
