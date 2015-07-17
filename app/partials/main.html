@@ -132,6 +132,11 @@
 	    </div>
 	  </div>
 	</div> -->
+	<style>
+	.modal-backdrop {
+		opacity: 1 !important;
+	}
+	</style>
 	<modal title="Enter password" class='text-center' visible="true">
 	    <form role="form" ng-submit="onSubmit()">
 	      	<div class="form-group">
@@ -139,6 +144,7 @@
 	        	<input type="password" class="form-control" id="password" placeholder="Password"></input>
 	    	</div>
 	    	<div class="container-fluid">
+	    		<!-- needs fading in/out for alerts... -->
 	    		<div class="row">
 					<div ng-show='showAlert' class="alert alert-danger alert-dismissible" role="alert">
 						<div class="text-center">

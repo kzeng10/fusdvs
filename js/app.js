@@ -87,7 +87,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	}])
 	.directive('modal', function () {
 	    return {
-			template: '<div class="modal fade" data-backdrop="static" data-keyboard="false" >' + 
+			template: '<div class="modal fade" data-backdrop="static" data-keyboard="false">' + 
 			  '<div class="modal-dialog">' + 
 			    '<div class="modal-content">' + 
 			      '<div class="modal-header">' + 
