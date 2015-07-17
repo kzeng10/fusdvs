@@ -16,6 +16,9 @@ app.use(bodyParser.json());
 var defaultChannel = 'default';
 var speak = {};
 var history = {}; 
+var passwords = {
+	"locked": "password"
+}; //channel:password
 
 app.get('/js/:file', function(req, res){
     res.sendFile(__dirname + '/js/'+req.params.file, res);

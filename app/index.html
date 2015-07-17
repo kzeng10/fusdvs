@@ -27,18 +27,24 @@
 		});
 
 		$(document).ready(function(e) {
-			$('#myModal').on('shown.bs.modal', function() {
-				authorized = false;
-			});
-			$('#myModal').on('hide.bs.modal', function() {
+			if(hasPassword()) {
+				$('#myModal').on('shown.bs.modal', function() {
+					authorized = false;
+				});
+				$('#myModal').on('hide.bs.modal', function() {
+					authorized = true;
+				});
+				$('#myModal').modal('show');
+				$('#myModal').data('bs.modal').$backdrop.css('opacity',1);
+			}
+			else {
 				authorized = true;
-			});
-			$('#myModal').modal('show');
-			$('#myModal').data('bs.modal').$backdrop.css('opacity',1);
+			}
+			
 			
 		});
 
-		function handlePW() {
+		var handlePW = function () {
 			var pw = document.getElementById('password').value;
 			console.log(pw);
 			if(pw === "password") { //fetch from some backend store of channel:pw entries
@@ -51,8 +57,11 @@
 					$('#incpw').fadeOut();
 				}, 5000);
 			}
-			
-		}
+		};
+
+		var hasPassword = function () {
+			return false;
+		};
 	</script>
 </head>
 <body ng-controller='TestCtrl'>
