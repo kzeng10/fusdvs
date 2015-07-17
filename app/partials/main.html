@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="col-md-4">
-			<input type="text" ng-model='selectedPerson' placeholder="Enter your name here if it's not in the list." class="form-control">
+			<input type="text" ng-model='selectedPerson' id='name' placeholder="Enter your name here if it's not in the list." class="form-control">
 		</div>
 	</div>
 
@@ -103,5 +103,52 @@
 	<div class="row">
 		<p class="text-center">Hint: click a person's name to remove them from the list.</p>
 	</div>
-	
+
+	<!-- <div class="modal" id='myModal' data-backdrop="static" data-keyboard="false" role="dialog" ng-hide='authorized'>
+	  <div class="modal-dialog modal-lg">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+                <h3 class='text-center'>Enter password</h3>
+            </div>
+            <div class="modal-body">
+            	<div class="container-fluid">
+            		<div class="row">
+            			<div class="col-md-8 col-md-offset-4">
+		            		<form class="form-inline" onSubmit="return handlePW()">
+			            		<input type="password" id='password' placeholder="Password" name='password' class="form-control">
+								<input type="submit" class="btn btn-primary" value="Enter" id='enter'></input>
+			            	</form>
+		            	</div>
+            		</div>
+            		<div class="row">
+			    		<div class="alert alert-danger alert-dismissible hidden" id='incpw' role="alert" style='display: block; margin: auto; margin-top:1%'>
+			    			<div class="text-center">
+			    				<strong>Incorrect password.</strong> Please try again.
+			    			</div>
+			    		</div>
+            		</div>
+            	</div>
+            </div>
+	    </div>
+	  </div>
+	</div> -->
+	<modal title="Enter password" class='text-center' visible="true">
+	    <form role="form" ng-submit="onSubmit()">
+	      	<div class="form-group">
+	        	<label for="password">Password</label>
+	        	<input type="password" class="form-control" id="password" placeholder="Password"></input>
+	    	</div>
+	    	<div class="container-fluid">
+	    		<div class="row">
+					<div ng-show='showAlert' class="alert alert-danger alert-dismissible" role="alert">
+						<div class="text-center">
+							<strong>Incorrect password.</strong> Please try again.
+						</div>
+					</div>
+				</div>
+	    	</div>
+		    
+	      	<button type="submit" class="btn btn-default">Submit</button>
+	    </form>
+  </modal>
 </div>

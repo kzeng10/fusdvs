@@ -6,8 +6,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			.otherwise({redirectTo:'/'});
 			$locationProvider.html5Mode(true);
 		})
-	.controller('TestCtrl', ['$scope', '$location', "speak", 'socketio', function ($scope, $location, speak, socketio) {
+	.controller('TestCtrl', ['$scope', '$location', "speak", 'socketio', '$timeout', function ($scope, $location, speak, socketio, $timeout) {
 		'use strict';
+		$scope.authorized = false;
+		$scope.showAlert = false;
 		$scope.channel = $location.search().channel || 'default';
 		$scope.people = speak.query();
 		$scope.history = speak.queryHistory();
@@ -33,6 +35,13 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				speak.clearHistory();
 			}
 		};
+		$scope.onSubmit = function() {
+			//if password doesn't match
+			$scope.showAlert = true;
+			$timeout(function() {
+				$scope.showAlert = false;
+			}, 5000);
+		};
 		socketio.on('personAdder_'+$scope.channel, function (person) {
             $scope.people.push(person);
             $scope.history.push(person);
@@ -47,7 +56,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
         	else{
         		$scope.people.splice(index, 1);
         	}
-        })
+        });
+
 	}])
 	// From http://briantford.com/blog/angular-socket-io
 	.factory('socketio', ['$rootScope', function ($rootScope) {
@@ -74,6 +84,47 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				});
 			}
 		};
-	}]);
+	}])
+	.directive('modal', function () {
+	    return {
+			template: '<div class="modal fade" data-backdrop="static" data-keyboard="false" >' + 
+			  '<div class="modal-dialog">' + 
+			    '<div class="modal-content">' + 
+			      '<div class="modal-header">' + 
+			        '<h4 class="modal-title">{{ title }}</h4>' + 
+			      '</div>' + 
+			      '<div class="modal-body" ng-transclude></div>' + 
+			    '</div>' + 
+			  '</div>' + 
+			'</div>',
+			restrict: 'E',
+			transclude: true,
+			replace:true,
+			scope:true,
+			link: function postLink(scope, element, attrs) {
+				scope.title = attrs.title;
+
+				scope.$watch(attrs.visible, function(value){
+				  if(value == true)
+				    $(element).modal('show');
+				  else
+				    $(element).modal('hide');
+				});
+
+				$(element).on('shown.bs.modal', function(){
+				  scope.$apply(function(){
+				    scope.$parent[attrs.visible] = true;
+				  });
+				});
+
+				$(element).on('hidden.bs.modal', function(){
+				  scope.$apply(function(){
+				    scope.$parent[attrs.visible] = false;
+				  });
+				});
+			}
+		};
+    });
+	
 
 	
