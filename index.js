@@ -20,6 +20,8 @@ var history = {};
 //dev purposes only
 try{
 	require('./secret.js');
+	console.log("In dev mode, required secret.js");
+	console.log(process.env);
 } catch(e) {
 	console.log('In production, Memcachier keys are already in env');
 }

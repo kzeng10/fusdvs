@@ -14,6 +14,9 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			name: '',
 			focus: false
 		};
+		$rootScope.entered = {
+			pw: ''
+		};
 		$rootScope.isCreator = false; 
 		$rootScope.authorized = false;
 		$rootScope.showPWAlert = false;
@@ -46,7 +49,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 
 		$rootScope.checkPW = function() { //change me!!!
 			//if password doesn't match
-			console.log("ENTERED PASS: " + $rootScope.password + " // CORRECT PASS HASH: " + $rootScope.correctPassword);
+			console.log("ENTERED PASS: " + $rootScope.entered.pw + " // CORRECT PASS HASH: " + $rootScope.correctPassword);
 			$rootScope.showPWAlert = true;
 			$timeout(function() {
 				$rootScope.showPWAlert = false;
