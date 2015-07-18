@@ -43,9 +43,8 @@ Version 0.01, 3/15/2015:
 To do:
 - Admin permissions
 	- Authentication for removing people from the list
-	- Ability to change channels
+	- Ability to change channels (UI element)
 	- Password-protected channels
-		- alert upon changing channels
 		- prevent creating channels that already exist
 - Mobile-friendly...
 - Or, put the list of people in a separate admin page (with password) and adding names to another page

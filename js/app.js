@@ -16,7 +16,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		};
 		$rootScope.isCreator = false; 
 		$rootScope.authorized = false;
-		$rootScope.showAlert = false;
+		$rootScope.showPWAlert = false;
+		$rootScope.showCCAlert = false;
 		$rootScope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
 		$rootScope.selectedPerson = ''; 		//text input or dropdown menu?
 
@@ -46,11 +47,17 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		$rootScope.checkPW = function() { //change me!!!
 			//if password doesn't match
 			console.log("ENTERED PASS: " + $rootScope.password + " // CORRECT PASS HASH: " + $rootScope.correctPassword);
-			$rootScope.showAlert = true;
+			$rootScope.showPWAlert = true;
 			$timeout(function() {
-				$rootScope.showAlert = false;
-			}, 5000);
+				$rootScope.showPWAlert = false;
+			}, 3000);
 		};
+		$rootScope.CCAlert = function() {
+			$rootScope.showCCAlert = true;
+			$timeout(function() {
+				$rootScope.showCCAlert = false;
+			}, 3000);
+		}
 		$rootScope.retrievePW = function() {
 			socketio.emit('pw', {msg:'check', channel: $rootScope.channel});
 		};
@@ -78,6 +85,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			$rootScope.history = speak.queryHistory();
 			$rootScope.retrievePW();
 			$rootScope.reinitSockets();
+			$rootScope.CCAlert();
 		};
 		$rootScope.reinitSockets = function() {
 			socketio.on('personAdder_'+$rootScope.channel, function (person) {
