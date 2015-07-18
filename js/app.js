@@ -19,6 +19,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		$rootScope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
 		$rootScope.selectedPerson = ''; 		//text input or dropdown menu?
 
+
 		$rootScope.remove = function(index) {
 			if(confirm("Would you like to remove " + $rootScope.people[index].name + "?")) {
 				speak.remove(index);
@@ -40,6 +41,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			}
 		};
 
+
 		$rootScope.checkPW = function() { //change me!!!
 			//if password doesn't match
 			console.log("ENTERED PASS: " + $rootScope.password + " // CORRECT PASS HASH: " + $rootScope.correctPassword);
@@ -56,6 +58,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
 			$rootScope.isCreator = true; //so you don't have to enter in password again
 			$location.search('channel', $rootScope.newchannel.name); //moving to new channel
+			$rootScope.newchannel = { //reset newchannel
+				pw: '',
+				name: ''
+			};
 			$rootScope.updateChannel();
 		};
 		$rootScope.gotoExistingChannel = function() {
@@ -165,7 +171,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		return function (scope, element, attrs) {
 	        $document.bind("keydown keypress", function (e) {
 	        	var keycode = (!!e.keyCode ? e.keyCode : e.which).toString();
-	            if(keycode === '13' && !!scope.selectedPerson) {
+	            if(keycode === '13' && !!scope.selectedPerson && !scope.newchannel.name) {
 	                scope.$apply(function (){
 	                    scope.$eval(attrs.onEnter);
 	                });
