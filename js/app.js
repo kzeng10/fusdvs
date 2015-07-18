@@ -12,6 +12,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			name: '',
 			pw: ''
 		};
+		//need to turn off isCreator when you move to new channel that you didn't make
 		$rootScope.isCreator = false; //turn this true when you enter a channel you just made
 		$rootScope.authorized = false;
 		$rootScope.password = undefined;
@@ -41,7 +42,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				speak.clearHistory();
 			}
 		};
-		$rootScope.onSubmit = function() {
+		$rootScope.checkPW = function() {
 			//if password doesn't match
 			console.log($rootScope.password);
 			$rootScope.showAlert = true;
@@ -57,14 +58,14 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			console.log($rootScope.newchannel.name + " " + hash);
 			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
 			$rootScope.isCreator = true; //so you don't have to enter in password again
-			$location.search('channel', $rootScope.newchannel.name);
+			$location.search('channel', $rootScope.newchannel.name); //moving to new channel
 			$rootScope.update();
-			$rootScope.retrievePW();
 		};
 		$rootScope.update = function() {
 			$rootScope.channel = $location.search().channel || 'default';
 			$rootScope.people = speak.query();
 			$rootScope.history = speak.queryHistory();
+			$rootScope.retrievePW();
 		};
 		socketio.on('personAdder_'+$rootScope.channel, function (person) {
             $rootScope.people.push(person);
@@ -84,7 +85,6 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
         socketio.on('pw', function(val) {
         	$rootScope.password = val;
         	$rootScope.authorized = !!!val || $rootScope.isCreator;
-        	// $rootScope.isCreator = false; //no longer creator 
         });
 
 	}])
