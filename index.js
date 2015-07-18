@@ -47,6 +47,7 @@ io.on('connection', function (socket) {
 				console.log(val);
 				io.emit('pw', val);
 			}, 500);
+			//set the password of this channel to be null
 			return;
 		}
 	});

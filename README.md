@@ -46,5 +46,6 @@ To do:
 	- Ability to change channels
 	- Password-protected channels
 		- alert upon changing channels
+		- prevent creating channels that already exist
 - Mobile-friendly...
 - Or, put the list of people in a separate admin page (with password) and adding names to another page
