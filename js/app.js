@@ -6,81 +6,84 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			.otherwise({redirectTo:'/'});
 			$locationProvider.html5Mode(true);
 		})
-	.controller('TestCtrl', ['$scope', '$location', "speak", 'socketio', '$timeout', function ($scope, $location, speak, socketio, $timeout) {
+	.controller('TestCtrl', ['$rootScope', '$location', "speak", 'socketio', '$timeout', function ($rootScope, $location, speak, socketio, $timeout) {
 		'use strict';
-		$scope.newchannel = {
+		$rootScope.newchannel = {
 			name: '',
 			pw: ''
 		};
-		$scope.authorized = false; //hasPassword()
-		$scope.password = undefined;
-		$scope.showAlert = false;
-		$scope.channel = $location.search().channel || 'default';
-		$scope.people = speak.query();
-		$scope.history = speak.queryHistory();
-		$scope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
-		$scope.selectedPerson = ''; 		//text input or dropdown menu?
-		$scope.remove = function(index) {
-			if(confirm("Would you like to remove " + $scope.people[index].name + "?")) {
+		$rootScope.authorized = false; //hasPassword()
+		$rootScope.password = undefined;
+		$rootScope.showAlert = false;
+		$rootScope.channel = $location.search().channel || 'default';
+		$rootScope.people = speak.query();
+		$rootScope.history = speak.queryHistory();
+		$rootScope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
+		$rootScope.selectedPerson = ''; 		//text input or dropdown menu?
+		$rootScope.remove = function(index) {
+			if(confirm("Would you like to remove " + $rootScope.people[index].name + "?")) {
 				speak.remove(index);
 			}
 		};
-		$scope.add = function(name) {
+		$rootScope.add = function(name) {
 			var time = new Date();
 			var newPerson = {name: name, time: time.toLocaleTimeString() + " on " + time.toLocaleDateString()};
 			speak.save(newPerson);
 		};
-		$scope.clearAll = function() {
+		$rootScope.clearAll = function() {
 			if(confirm("Would you like to clear the list?")) {
 				speak.clearAll();
 			}
 		};
-		$scope.clearHistory = function() {
+		$rootScope.clearHistory = function() {
 			if(confirm("Would you like to clear the history?")) {
 				speak.clearHistory();
 			}
 		};
-		$scope.onSubmit = function() {
+		$rootScope.onSubmit = function() {
 			//if password doesn't match
-			$scope.showAlert = true;
+			$rootScope.showAlert = true;
 			$timeout(function() {
-				$scope.showAlert = false;
+				$rootScope.showAlert = false;
 			}, 5000);
 		};
-		$scope.retrievePW = function() {
-			socketio.emit('pw', {msg:'check', channel:$scope.channel});
+		$rootScope.retrievePW = function() {
+			socketio.emit('pw', {msg:'check', channel: $rootScope.channel});
 		};
-		$scope.goToNewChannel = function() {
-			var hash = CryptoJS.SHA512($scope.newchannel.pw).toString(CryptoJS.enc.Base64);
-			console.log($scope.newchannel.name + " " + hash);
-			socketio.emit('pw', {msg: 'new', hash: hash, channel: $scope.newchannel.name });
-			$location.search('channel', $scope.newchannel.name);
-			$scope.update();
-			$scope.authorized = true; //so you don't have to enter in password again
+		$rootScope.goToNewChannel = function() {
+			var hash = CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64);
+			console.log($rootScope.newchannel.name + " " + hash);
+			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
+			$location.search('channel', $rootScope.newchannel.name);
+			$rootScope.update();
+			$rootScope.retrievePW();
+			$rootScope.authorized = true; //so you don't have to enter in password again
+			console.log($rootScope.authorized);
 		};
-		$scope.update = function() {
-			$scope.channel = $location.search().channel || 'default';
-			$scope.people = speak.query();
-			$scope.history = speak.queryHistory();
+		$rootScope.update = function() {
+			$rootScope.channel = $location.search().channel || 'default';
+			$rootScope.people = speak.query();
+			$rootScope.history = speak.queryHistory();
 		};
-		socketio.on('personAdder_'+$scope.channel, function (person) {
-            $scope.people.push(person);
-            $scope.history.push(person);
+		socketio.on('personAdder_'+$rootScope.channel, function (person) {
+            $rootScope.people.push(person);
+            $rootScope.history.push(person);
         });
-        socketio.on('personRemover_'+$scope.channel, function(index) {
+        socketio.on('personRemover_'+$rootScope.channel, function(index) {
         	if(index == "all") {
-        		$scope.people = [];
+        		$rootScope.people = [];
         	}
         	else if(index == "historyClear") {
-        		$scope.history = [];
+        		$rootScope.history = [];
         	}
         	else{
-        		$scope.people.splice(index, 1);
+        		$rootScope.people.splice(index, 1);
         	}
         });
         socketio.on('pw', function(val) {
-        	$scope.password = val;
-        	$scope.authorized = !!!val;
+        	$rootScope.password = val;
+        	$rootScope.authorized = !!!val;
+        	console.log($rootScope.password + " " + $rootScope.authorized);
         });
 
 	}])
