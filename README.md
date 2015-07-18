@@ -17,29 +17,6 @@ To run on your local machine:
 
 As an added bonus, I would recommend you to get <a href='https://github.com/remy/nodemon'>nodemon</a>, which is really useful if you plan on tweaking/modifying this web app (which you probably would be doing if you're running this on your local machine).
 
-Version 0.04, 7/15/2015:
-- Added channels, done by a url param
-- Modified spacing
-
-Version 0.03, 7/14/2015:
-- Did basic bootstrap styling
-- Made add button bigger
-- decided to stop being lazy and finish this up
-
-Version 0.02, 3/16/2015:
-- Added history table and time stamps
-- Hit enter to submit name
-- Includes both dropdown menu and text entry for names not in the list
-- Prompt user before removing name from list
-- Clear all and clear history buttons with prompting
-
-Version 0.01, 3/15/2015:
-
-- Configured working Express server with valid environment variables and basic routes
-- Configured basic views and controllers with Angular
-- Got socket.io working!
-- Includes list of JSON objects of all the people in line to speak just for reference
-
 To do:
 - Admin permissions
 	- Authentication for removing people from the list
