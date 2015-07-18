@@ -12,7 +12,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			name: '',
 			pw: ''
 		};
-		$rootScope.authorized = false; //hasPassword()
+		$rootScope.isCreator = false; //turn this true when you enter a channel you just made
+		$rootScope.authorized = false;
 		$rootScope.password = undefined;
 		$rootScope.showAlert = false;
 		$rootScope.channel = $location.search().channel || 'default';
@@ -42,6 +43,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		};
 		$rootScope.onSubmit = function() {
 			//if password doesn't match
+			console.log($rootScope.password);
 			$rootScope.showAlert = true;
 			$timeout(function() {
 				$rootScope.showAlert = false;
@@ -54,11 +56,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			var hash = CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64);
 			console.log($rootScope.newchannel.name + " " + hash);
 			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
+			$rootScope.isCreator = true; //so you don't have to enter in password again
 			$location.search('channel', $rootScope.newchannel.name);
 			$rootScope.update();
 			$rootScope.retrievePW();
-			$rootScope.authorized = true; //so you don't have to enter in password again
-			console.log($rootScope.authorized);
 		};
 		$rootScope.update = function() {
 			$rootScope.channel = $location.search().channel || 'default';
@@ -82,8 +83,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
         });
         socketio.on('pw', function(val) {
         	$rootScope.password = val;
-        	$rootScope.authorized = !!!val;
-        	console.log($rootScope.password + " " + $rootScope.authorized);
+        	$rootScope.authorized = !!!val || $rootScope.isCreator;
+        	// $rootScope.isCreator = false; //no longer creator 
         });
 
 	}])
