@@ -39,6 +39,13 @@ angular.module('testAppdata', ['ngResource']).factory('speak', ['$resource', '$l
         clearAll: function() {
             console.log("Cleared all!");
             deleteurl.save({clearAll: true});
+        },
+
+        updateChannel: function() {
+            channel = $location.search().channel || 'default';
+            server = $resource('/people', {channel:channel});
+            history = $resource('/history', {channel:channel});
+            deleteurl = $resource('/remove', {channel:channel});
         }
     };
 }]);

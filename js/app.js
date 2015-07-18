@@ -56,10 +56,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		};
 		$rootScope.goToNewChannel = function() {
 			var hash = CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64);
-			console.log($rootScope.newchannel.name + " " + hash);
 			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
 			$rootScope.isCreator = true; //so you don't have to enter in password again
 			$location.search('channel', $rootScope.newchannel.name); //moving to new channel
+			speak.updateChannel();
 			$rootScope.update();
 		};
 		$rootScope.update = function() {
@@ -67,22 +67,27 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			$rootScope.people = speak.query();
 			$rootScope.history = speak.queryHistory();
 			$rootScope.retrievePW();
+			$rootScope.reinitSockets();
 		};
-		socketio.on('personAdder_'+$rootScope.channel, function (person) {
-            $rootScope.people.push(person);
-            $rootScope.history.push(person);
-        });
-        socketio.on('personRemover_'+$rootScope.channel, function(index) {
-        	if(index == "all") {
-        		$rootScope.people = [];
-        	}
-        	else if(index == "historyClear") {
-        		$rootScope.history = [];
-        	}
-        	else{
-        		$rootScope.people.splice(index, 1);
-        	}
-        });
+		$rootScope.reinitSockets = function() {
+			socketio.on('personAdder_'+$rootScope.channel, function (person) {
+	            $rootScope.people.push(person);
+	            $rootScope.history.push(person);
+	        });
+	        socketio.on('personRemover_'+$rootScope.channel, function(index) {
+	        	if(index == "all") {
+	        		$rootScope.people = [];
+	        	}
+	        	else if(index == "historyClear") {
+	        		$rootScope.history = [];
+	        	}
+	        	else{
+	        		$rootScope.people.splice(index, 1);
+	        	}
+	        });
+		};
+		$rootScope.reinitSockets();
+		
         socketio.on('pw', function(val) {
         	$rootScope.password = val;
         	$rootScope.authorized = !!!val || $rootScope.isCreator;
