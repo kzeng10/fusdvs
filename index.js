@@ -40,6 +40,7 @@ io.on('connection', function (socket) {
 		if(res.msg === 'check') {
 			console.log('checking db');
 			var check = memcachier.get(res.channel, function(err, val) {
+				val = (!!val ? val.toString('base64') : val);
 				if(err) {
 					console.log(err);
 				}
