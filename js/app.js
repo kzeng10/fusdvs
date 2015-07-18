@@ -8,21 +8,17 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		})
 	.controller('TestCtrl', ['$rootScope', '$location', "speak", 'socketio', '$timeout', function ($rootScope, $location, speak, socketio, $timeout) {
 		'use strict';
+
 		$rootScope.newchannel = {
-			name: '',
-			pw: ''
-		};
-		//TODO: group these variables and functions in more meaningful ways...
-		//need to turn off isCreator when you move to new channel that you didn't make
-		$rootScope.isCreator = false; //turn this true when you enter a channel you just made
+			pw: '',
+			name: ''
+		}
+		$rootScope.isCreator = false; 
 		$rootScope.authorized = false;
-		$rootScope.password = undefined;
 		$rootScope.showAlert = false;
-		$rootScope.channel = $location.search().channel || 'default';
-		$rootScope.people = speak.query();
-		$rootScope.history = speak.queryHistory();
 		$rootScope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
 		$rootScope.selectedPerson = ''; 		//text input or dropdown menu?
+
 		$rootScope.remove = function(index) {
 			if(confirm("Would you like to remove " + $rootScope.people[index].name + "?")) {
 				speak.remove(index);
@@ -43,9 +39,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				speak.clearHistory();
 			}
 		};
-		$rootScope.checkPW = function() {
+
+		$rootScope.checkPW = function() { //change me!!!
 			//if password doesn't match
-			console.log($rootScope.password);
+			console.log("ENTERED PASS: " + $rootScope.password + " // CORRECT PASS HASH: " + $rootScope.correctPassword);
 			$rootScope.showAlert = true;
 			$timeout(function() {
 				$rootScope.showAlert = false;
@@ -59,10 +56,15 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
 			$rootScope.isCreator = true; //so you don't have to enter in password again
 			$location.search('channel', $rootScope.newchannel.name); //moving to new channel
-			speak.updateChannel();
-			$rootScope.update();
+			$rootScope.updateChannel();
 		};
-		$rootScope.update = function() {
+		$rootScope.gotoExistingChannel = function() {
+			$rootScope.isCreator = false;
+			$location.search('channel', $rootScope.existingChannel);
+			$rootScope.updateChannel();
+		}
+		$rootScope.updateChannel = function() {
+			speak.updateChannel();
 			$rootScope.channel = $location.search().channel || 'default';
 			$rootScope.people = speak.query();
 			$rootScope.history = speak.queryHistory();
@@ -84,15 +86,14 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        	else{
 	        		$rootScope.people.splice(index, 1);
 	        	}
+	        }); 
+	        socketio.on('pw_'+$rootScope.channel, function(val) {
+	        	$rootScope.correctPassword = val;
+	        	$rootScope.authorized = !!!val || $rootScope.isCreator;
 	        });
 		};
-		$rootScope.reinitSockets();
-		
-        socketio.on('pw', function(val) {
-        	$rootScope.password = val;
-        	$rootScope.authorized = !!!val || $rootScope.isCreator;
-        });
 
+        $rootScope.updateChannel();
 	}])
 	// From http://briantford.com/blog/angular-socket-io
 	.factory('socketio', ['$rootScope', function ($rootScope) {

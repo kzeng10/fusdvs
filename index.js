@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
 					console.log(err);
 				}
 				console.log(val);
-				io.emit('pw', val);
+				io.emit('pw_'+res.channel, val);
 			}, 500);
 			//set the password of this channel to be null
 			return;
