@@ -2,22 +2,21 @@
 	<div class="row">
 		<h1 class="text-center">FUSD Speaking Indicator System</h1>
 	</div>
-	
-	<hr> 
-	
+
 	<div class="row">
 		<div class="text-center">
 			Current channel: <strong>{{channel}}</strong>
 		</div>
   	</div>
-  	
-	 <br>
+	
+	<hr> 
 	 
   	<div class="row">
   		<div class="text-center">
-			<form class="form-inline" action="/">
+			<form class="form-inline" ng-submit="goToNewChannel()">
 				<label for="newChannel">New Channel: </label>
-				<input type="text" id='newChannel' placeholder="New channel" name='channel' class="form-control">
+				<input type="text" id='newChannel' placeholder="New channel" ng-model='newchannel.name' class="form-control">
+				<input type="password" id='newChannelPW' placeholder="Password (optional)" ng-model='newchannel.pw' class="form-control">
 				<input type="submit" class="btn btn-primary" value="Go"></input>
 			</form>
 		</div>

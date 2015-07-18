@@ -28,6 +28,7 @@ try{
 var memcachier = require('memjs').Client.create(); //channel:pwhash
 io.on('connection', function (socket) {
 	socket.on('pw', function(res) {
+		console.log(res);
 		if(res.msg === 'new') {
 			memcachier.set(res.channel, res.hash, function(err, val) {
 				if(err) {
@@ -42,6 +43,7 @@ io.on('connection', function (socket) {
 				if(err) {
 					console.log(err);
 				}
+				console.log(val);
 				io.emit('pw', val);
 			}, 500);
 			return;

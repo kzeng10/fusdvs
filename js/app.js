@@ -8,6 +8,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		})
 	.controller('TestCtrl', ['$scope', '$location', "speak", 'socketio', '$timeout', function ($scope, $location, speak, socketio, $timeout) {
 		'use strict';
+		$scope.newchannel = {
+			name: '',
+			pw: ''
+		};
 		$scope.authorized = false; //hasPassword()
 		$scope.password = undefined;
 		$scope.showAlert = false;
@@ -45,6 +49,19 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		};
 		$scope.retrievePW = function() {
 			socketio.emit('pw', {msg:'check', channel:$scope.channel});
+		};
+		$scope.goToNewChannel = function() {
+			var hash = CryptoJS.SHA512($scope.newchannel.pw).toString(CryptoJS.enc.Base64);
+			console.log($scope.newchannel.name + " " + hash);
+			socketio.emit('pw', {msg: 'new', hash: hash, channel: $scope.newchannel.name });
+			$location.search('channel', $scope.newchannel.name);
+			$scope.update();
+			$scope.authorized = true; //so you don't have to enter in password again
+		};
+		$scope.update = function() {
+			$scope.channel = $location.search().channel || 'default';
+			$scope.people = speak.query();
+			$scope.history = speak.queryHistory();
 		};
 		socketio.on('personAdder_'+$scope.channel, function (person) {
             $scope.people.push(person);
