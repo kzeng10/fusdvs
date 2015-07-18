@@ -15,8 +15,8 @@
   		<div class="text-center">
 			<form class="form-inline" ng-submit="goToNewChannel()">
 				<label for="newChannel">New Channel: </label>
-				<input type="text" id='newChannel' placeholder="New channel" ng-model='newchannel.name' class="form-control">
-				<input type="password" id='newChannelPW' placeholder="Password (optional)" ng-model='newchannel.pw' class="form-control">
+				<input type="text" id='newChannel' placeholder="New channel" ng-model='newchannel.name' class="form-control" ng-focus='newchannel.focus=true' ng-blur='newchannel.focus=false'>
+				<input type="password" id='newChannelPW' placeholder="Password (optional)" ng-model='newchannel.pw' class="form-control" ng-focus='newchannel.focus=true' ng-blur='newchannel.focus=false'>
 				<input type="submit" class="btn btn-primary" value="Go"></input>
 			</form>
 		</div>

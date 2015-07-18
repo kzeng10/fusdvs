@@ -11,8 +11,9 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 
 		$rootScope.newchannel = {
 			pw: '',
-			name: ''
-		}
+			name: '',
+			focus: false
+		};
 		$rootScope.isCreator = false; 
 		$rootScope.authorized = false;
 		$rootScope.showAlert = false;
@@ -60,7 +61,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			$location.search('channel', $rootScope.newchannel.name); //moving to new channel
 			$rootScope.newchannel = { //reset newchannel
 				pw: '',
-				name: ''
+				name: '',
+				focus: false
 			};
 			$rootScope.updateChannel();
 		};
@@ -171,7 +173,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		return function (scope, element, attrs) {
 	        $document.bind("keydown keypress", function (e) {
 	        	var keycode = (!!e.keyCode ? e.keyCode : e.which).toString();
-	            if(keycode === '13' && !!scope.selectedPerson && !scope.newchannel.name) {
+	            if(keycode === '13' && !!scope.selectedPerson && !scope.newchannel.focus) {
 	                scope.$apply(function (){
 	                    scope.$eval(attrs.onEnter);
 	                });
