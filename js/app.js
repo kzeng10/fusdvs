@@ -12,6 +12,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			name: '',
 			pw: ''
 		};
+		//TODO: group these variables and functions in more meaningful ways...
 		//need to turn off isCreator when you move to new channel that you didn't make
 		$rootScope.isCreator = false; //turn this true when you enter a channel you just made
 		$rootScope.authorized = false;
