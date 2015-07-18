@@ -48,3 +48,4 @@ To do:
 		- prevent creating channels that already exist
 - Mobile-friendly...
 - Or, put the list of people in a separate admin page (with password) and adding names to another page
+- Switch to React
