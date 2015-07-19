@@ -21,6 +21,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		$rootScope.authorized = false;
 		$rootScope.showPWAlert = false;
 		$rootScope.showCCAlert = false;
+		$rootScope.correctPassword = undefined;
 		$rootScope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
 		$rootScope.selectedPerson = ''; 		//text input or dropdown menu?
 
@@ -48,12 +49,19 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 
 
 		$rootScope.checkPW = function() { //change me!!!
-			//if password doesn't match
-			console.log("ENTERED PASS: " + $rootScope.entered.pw + " // CORRECT PASS HASH: " + $rootScope.correctPassword);
-			$rootScope.showPWAlert = true;
-			$timeout(function() {
-				$rootScope.showPWAlert = false;
-			}, 3000);
+			var enteredhash = CryptoJS.SHA512($rootScope.entered.pw).toString(CryptoJS.enc.Base64);
+			console.log(enteredhash);
+			if(enteredhash === $rootScope.correctPassword) {
+				//entry granted
+				$rootScope.authorized = true;
+			}
+			else{
+				$rootScope.showPWAlert = true;
+				$timeout(function() {
+					$rootScope.showPWAlert = false;
+				}, 3000);
+			}
+			
 		};
 		$rootScope.CCAlert = function() {
 			$rootScope.showCCAlert = true;
