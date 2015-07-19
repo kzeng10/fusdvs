@@ -19,14 +19,20 @@ As an added bonus, I would recommend you to get <a href='https://github.com/remy
 
 To do:
 - Admin permissions
-	- Authentication for removing people from the list
-	- Ability to change channels (UI element)
-	- Password-protected channels
-		- prevent creating channels that already exist
+	- Authentication for removing people from the list (use `$rootScope.isCreator`)
+- Ability to change channels (UI element)
+- Prevent creating channels that already exist (create a `existingChannels` dict and set `createdChannels : true` )
+- Remove channels after x minutes of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
+- Link to a backend db/redis if you need to scale
+	- will need to re-figure out how to do timing out inactive channels
+	- refer to known bugs for reason why I'm pushing this off for the future
 - Mobile-friendly...
-- Or, put the list of people in a separate admin page (with password) and adding names to another page
+- (Likely separate fork) put the list of people in a separate admin page (with password) and adding names to another page
 - Switch to React
 
 Known Bugs:
-- On server restart, refreshing a pw-protected page automatically grants access
-- On server restart, connceting to memcachier fails either with EPIPE or ECONNRESET, likely related to first bug
+- With Memcachier:
+	- On server restart, refreshing a pw-protected page automatically grants access
+	- On server restart, connecting to memcachier fails either with EPIPE or ECONNRESET, likely related to first bug
+- With Memcached Cloud:
+	- can't connect at all...

@@ -16,40 +16,31 @@ app.use(bodyParser.json());
 var defaultChannel = 'default';
 var speak = {};
 var history = {}; 
+var pwstore = {};
 
+// TODO: get memcachier or memcachedcloud or another memcache service working
 //dev purposes only
-try{
-	require('./secret.js');
-	console.log("In dev mode, required secret.js");
-	console.log(process.env);
-} catch(e) {
-	console.log('In production, Memcachier keys are already in env');
-}
+// try{
+// 	require('./secret.js');
+// } catch(e) {
+// 	console.log('In production, Memcached keys are already in env');
+// }
 
+// var MemCache = require('memjs').Client;
+// var memcachier = MemCache.create(); //channel:pwhash
 
-var memcachier = require('memjs').Client.create(); //channel:pwhash
 io.on('connection', function (socket) {
 	socket.on('pw', function(res) {
 		console.log(res);
 		if(res.msg === 'new') {
-			memcachier.set(res.channel, res.hash, function(err, val) {
-				if(err) {
-					console.log(err);
-				}
-				return;
-			}, 500);
+			console.log('adding to db');
+			pwstore[res.channel] = res.hash;
+			console.log('SET: ' + res.hash + ' FOR CHANNEL: ' + res.channel);
 		}
 		if(res.msg === 'check') {
 			console.log('checking db');
-			memcachier.get(res.channel, function(err, val) {
-				val = (!!val ? val.toString('utf-8') : val);
-				if(err) {
-					console.log(err);
-				}
-				console.log(val);
-				io.emit('pw_'+res.channel, val);
-			}, 500);
-			//set the password of this channel to be null
+			console.log('GOT PASS HASH: ' + pwstore[res.channel] + ' FOR CHANNEL: ' + res.channel);
+			io.emit('pw_'+res.channel, pwstore[res.channel]);
 			return;
 		}
 	});

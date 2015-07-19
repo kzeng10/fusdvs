@@ -1,3 +1,7 @@
+Version 0.06, 7/18/2015:
+- tossed out memcachier because of frustrations from EPIPE and ECONNRESET errors
+- went to using in-memory dict store
+
 Version 0.05, 7/18/2015:
 - ability to create new channels
 - password-protected channels
