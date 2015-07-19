@@ -3,7 +3,6 @@ Version 0.05, 7/18/2015:
 - password-protected channels
 - made this changelog
 
-
 Version 0.04, 7/15/2015:
 - Added channels, done by a url param
 - Modified spacing

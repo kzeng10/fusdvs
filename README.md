@@ -26,3 +26,7 @@ To do:
 - Mobile-friendly...
 - Or, put the list of people in a separate admin page (with password) and adding names to another page
 - Switch to React
+
+Known Bugs:
+- On server restart, refreshing a pw-protected page automatically grants access
+- On server restart, connceting to memcachier fails either with EPIPE or ECONNRESET, likely related to first bug
