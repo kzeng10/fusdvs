@@ -116,7 +116,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        }); 
 	        socketio.on('pw_'+$rootScope.channel, function(val) {
 	        	$rootScope.correctPassword = val;
-	        	$rootScope.authorized = !!!val || $rootScope.isCreator;
+	        	$rootScope.authorized = !!!val || $rootScope.isCreator || $rootScope.authorized;
 	        });
 		};
 
