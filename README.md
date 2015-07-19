@@ -37,6 +37,3 @@ Known Bugs:
 	- On server restart, connecting to memcachier fails either with EPIPE or ECONNRESET, likely related to first bug
 - With Memcached Cloud:
 	- can't connect at all...
-- With Socket io
-	- After going to new page, new polls from previous page continue to show up (e.g. user A goes from default to newchan, and user B on default submits, user A receives it)
-		- Can be fixed by restarting sockets somehow...
