@@ -86,9 +86,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		};
 		$rootScope.gotoExistingChannel = function() {
 			$rootScope.isCreator = false;
+			$rootScope.authorized = false;
 			$location.search('channel', $rootScope.existingChannel);
 			$rootScope.updateChannel();
-		}
+		};
 		$rootScope.updateChannel = function() {
 			speak.updateChannel();
 			$rootScope.channel = $location.search().channel || 'default';
