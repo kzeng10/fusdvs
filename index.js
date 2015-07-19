@@ -44,7 +44,12 @@ io.on('connection', function (socket) {
 			return;
 		}
 	});
+	socket.on('disconnect', function() {
+		console.log('A client disconnected.');
+	});
 });
+
+
 
 app.get('/js/:file', function(req, res){
     res.sendFile(__dirname + '/js/'+req.params.file, res);

@@ -9,6 +9,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	.controller('TestCtrl', ['$rootScope', '$location', "speak", 'socketio', '$timeout', function ($rootScope, $location, speak, socketio, $timeout) {
 		'use strict';
 
+		$rootScope.prevEventNames = [];
 		$rootScope.newchannel = {
 			pw: '',
 			name: '',
@@ -100,6 +101,9 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			$rootScope.CCAlert();
 		};
 		$rootScope.reinitSockets = function() {
+			$rootScope.prevEventNames.forEach(function(eventName) {
+				socketio.removeListener(eventName);
+			});
 			socketio.on('personAdder_'+$rootScope.channel, function (person) {
 	            $rootScope.people.push(person);
 	            $rootScope.history.push(person);
@@ -119,6 +123,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        	$rootScope.correctPassword = val;
 	        	$rootScope.authorized = !!!val || $rootScope.isCreator || $rootScope.authorized;
 	        });
+	        //might be a good idea to use socket namespaces for channels...
+	        $rootScope.prevEventNames = ['personAdder_'+$rootScope.channel, 'personRemover_'+$rootScope.channel, 'pw_'+$rootScope.channel]
 		};
 
         $rootScope.updateChannel();
@@ -150,6 +156,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 						}
 					});
 				});
+			},
+
+			removeListener: function(eventName) {
+				socket.removeListener(eventName);
 			}
 		};
 	}])

@@ -23,6 +23,7 @@ To do:
 - Ability to change channels (UI element)
 - Prevent creating channels that already exist (create a `existingChannels` dict and set `createdChannels : true` )
 - Remove channels after x minutes of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
+- Use socket namespaces for channels (look at comment in app.js)
 - Link to a backend db/redis if you need to scale
 	- will need to re-figure out how to do timing out inactive channels
 	- refer to known bugs for reason why I'm pushing this off for the future
