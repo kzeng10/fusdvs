@@ -118,7 +118,11 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	.factory('socketio', ['$rootScope', function ($rootScope) {
 		'use strict';
 		
-		var socket = io.connect();
+		var socket = io.connect({
+		    'reconnection': true,
+		    'reconnectionDelay': 1000,
+		    'reconnectionAttempts': 3
+		});
 		return {
 			on: function (eventName, callback) {
 				socket.on(eventName, function () {
