@@ -73,7 +73,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			socketio.emit('pw', {msg:'check', channel: $rootScope.channel});
 		};
 		$rootScope.goToNewChannel = function() {
-			var hash = CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64);
+			var hash = !!$rootScope.newchannel.pw ? CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64) : undefined;
 			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
 			$rootScope.isCreator = true; //so you don't have to enter in password again
 			$location.search('channel', $rootScope.newchannel.name); //moving to new channel

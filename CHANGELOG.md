@@ -24,7 +24,6 @@ Version 0.02, 3/16/2015:
 - Clear all and clear history buttons with prompting
 
 Version 0.01, 3/15/2015:
-
 - Configured working Express server with valid environment variables and basic routes
 - Configured basic views and controllers with Angular
 - Got socket.io working!
