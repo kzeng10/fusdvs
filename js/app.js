@@ -15,6 +15,10 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			name: '',
 			focus: false
 		};
+		$rootScope.existingChannel = {
+			name: '',
+			focus: false
+		};
 		$rootScope.entered = {
 			pw: ''
 		};
@@ -73,6 +77,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		$rootScope.retrievePW = function() {
 			socketio.emit('pw', {msg:'check', channel: $rootScope.channel});
 		};
+		//implement blocking channel creation for existing channels, then merge create and go to channel elements to just go to w/ pw
 		$rootScope.goToNewChannel = function() {
 			var hash = !!$rootScope.newchannel.pw ? CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64) : undefined;
 			socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name });
@@ -85,10 +90,13 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			};
 			$rootScope.updateChannel();
 		};
-		$rootScope.gotoExistingChannel = function() {
+		$rootScope.goToExistingChannel = function() {
+			$location.search('channel', $rootScope.existingChannel.name);
 			$rootScope.isCreator = false;
-			$rootScope.authorized = false;
-			$location.search('channel', $rootScope.existingChannel);
+			$rootScope.existingChannel = {
+				name: '',
+				focus: false
+			};
 			$rootScope.updateChannel();
 		};
 		$rootScope.updateChannel = function() {
@@ -121,7 +129,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        }); 
 	        socketio.on('pw_'+$rootScope.channel, function(val) {
 	        	$rootScope.correctPassword = val;
-	        	$rootScope.authorized = !!!val || $rootScope.isCreator || $rootScope.authorized;
+	        	$rootScope.authorized = !!!val || $rootScope.isCreator;
 	        });
 	        //might be a good idea to use socket namespaces for channels...
 	        $rootScope.prevEventNames = ['personAdder_'+$rootScope.channel, 'personRemover_'+$rootScope.channel, 'pw_'+$rootScope.channel]
@@ -207,7 +215,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		return function (scope, element, attrs) {
 	        $document.bind("keydown keypress", function (e) {
 	        	var keycode = (!!e.keyCode ? e.keyCode : e.which).toString();
-	            if(keycode === '13' && !!scope.selectedPerson && !scope.newchannel.focus) {
+	            if(keycode === '13' && !!scope.selectedPerson && !scope.newchannel.focus && !scope.existingChannel.focus) {
 	                scope.$apply(function (){
 	                    scope.$eval(attrs.onEnter);
 	                });
