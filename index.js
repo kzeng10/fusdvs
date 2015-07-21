@@ -14,9 +14,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var defaultChannel = 'default';
+var clientID = 1; //increment one after each assignment
 var speak = {};
 var history = {}; 
 var pwstore = {};
+var existingChannels = {}; //boolean dict
+existingChannels[defaultChannel] = true;
+
 
 // TODO: get memcachier or memcachedcloud or another memcache service working
 //dev purposes only
@@ -30,18 +34,25 @@ var pwstore = {};
 // var memcachier = MemCache.create(); //channel:pwhash
 
 io.on('connection', function (socket) {
+	socket.emit('clientid', clientID++);
 	socket.on('pw', function(res) {
 		console.log(res);
 		if(res.msg === 'new') {
 			console.log('adding to db');
 			pwstore[res.channel] = res.hash;
+			existingChannels[res.channel] = true;
 			console.log('SET: ' + res.hash + ' FOR CHANNEL: ' + res.channel);
 		}
-		if(res.msg === 'check') {
+		if(res.msg === 'checkpass') {
 			console.log('checking db');
 			console.log('GOT PASS HASH: ' + pwstore[res.channel] + ' FOR CHANNEL: ' + res.channel);
-			io.emit('pw_'+res.channel, pwstore[res.channel]);
+			socket.emit('pw_'+res.channel, pwstore[res.channel]);
 			return;
+		}
+		if(res.msg === 'checkchan') {
+			console.log('checking if channel ' + res.channel + ' exists');
+			socket.emit('checkchan_'+res.channel, existingChannels[res.channel]);
+			console.log('channel availability is ' + existingChannels[res.channel]);
 		}
 	});
 	socket.on('disconnect', function() {

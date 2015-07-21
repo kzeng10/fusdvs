@@ -18,6 +18,7 @@ To run on your local machine:
 As an added bonus, I would recommend you to get <a href='https://github.com/remy/nodemon'>nodemon</a>, which is really useful if you plan on tweaking/modifying this web app (which you probably would be doing if you're running this on your local machine).
 
 To do:
+- Make use of client id in socket listeners
 - Admin permissions
 	- Authentication for removing people from the list (use `$rootScope.isCreator`)
 - need to organize code... (alerts, socket event listeners, etc)
