@@ -20,7 +20,7 @@ As an added bonus, I would recommend you to get <a href='https://github.com/remy
 To do:
 - Admin permissions
 	- Authentication for removing people from the list (use `$rootScope.isCreator`)
-- _need to organize code... (alerts, socket event listeners, etc)_
+- <b>need to organize code... (alerts, socket event listeners, etc)</b>
 - Remove channels after x minutes of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)
 - Link to a backend db/redis if you need to scale
