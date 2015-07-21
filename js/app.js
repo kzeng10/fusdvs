@@ -32,7 +32,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		$rootScope.peopleDir = ['Ann Crosbie', 'Larry Sweeney', 'Yang Shao', 'Michele Berke', 'Joshua Basa'];
 		$rootScope.selectedPerson = ''; 		//text input or dropdown menu?
 
-
+		//channel specific functions
 		$rootScope.remove = function(index) {
 			if(confirm("Would you like to remove " + $rootScope.people[index].name + "?")) {
 				speak.remove(index);
@@ -55,21 +55,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		};
 
 
-		$rootScope.checkPW = function() { //change me!!!
-			var enteredhash = CryptoJS.SHA512($rootScope.entered.pw).toString(CryptoJS.enc.Base64);
-			console.log(enteredhash);
-			if(enteredhash === $rootScope.correctPassword) {
-				//entry granted
-				$rootScope.authorized = true;
-			}
-			else{
-				$rootScope.showPWAlert = true;
-				$timeout(function() {
-					$rootScope.showPWAlert = false;
-				}, 3000);
-			}
-			
-		};
+
+		//client specific functions
 		$rootScope.CCAlert = function() {
 			$rootScope.showCCAlert = true;
 			$timeout(function() {
@@ -83,14 +70,13 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			}, 3000);
 		};
 		$rootScope.retrievePW = function() {
-			socketio.emit('pw', {msg:'checkpass', channel: $rootScope.channel, id: $rootScope.clientid});
+			socketio.emit('checkpass', {channel: $rootScope.channel, id: $rootScope.clientid});
 		};
-		//implement blocking channel creation for existing channels using clientid
-		//actually, change all listeners to use clientid instead...
-		//then merge create and go to channel elements to just go to w/ pw
+
+		//TODO: merge following two functions
 		$rootScope.goToNewChannel = function() {
-			//check if channel already exists with this name
-			socketio.emit('pw', {msg:'checkchan', channel: $rootScope.newchannel.name, id: $rootScope.clientid});
+			//check if channel already exists with this name, go to checkchan listener
+			socketio.emit('checkchan', {channel: $rootScope.newchannel.name, id: $rootScope.clientid});
 			
 		};
 		$rootScope.goToExistingChannel = function() {
@@ -102,14 +88,21 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			};
 			$rootScope.updateChannel();
 		};
-		$rootScope.updateChannel = function() {
-			speak.updateChannel();
-			$rootScope.channel = $location.search().channel || 'default';
-			$rootScope.people = speak.query();
-			$rootScope.history = speak.queryHistory();
-			$rootScope.retrievePW();
-			$rootScope.reinitSockets();
-			$rootScope.CCAlert();
+
+		$rootScope.checkPW = function() {
+			var enteredhash = CryptoJS.SHA512($rootScope.entered.pw).toString(CryptoJS.enc.Base64);
+			console.log("CHECKING: " + enteredhash);
+			if(enteredhash === $rootScope.correctPassword) {
+				//entry granted
+				$rootScope.authorized = true;
+			}
+			else{
+				$rootScope.showPWAlert = true;
+				$timeout(function() {
+					$rootScope.showPWAlert = false;
+				}, 3000);
+			}
+			
 		};
 		$rootScope.reinitSockets = function() {
 			$rootScope.prevEventNames.forEach(function(eventName) {
@@ -137,6 +130,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        	}
 	        }); 
 
+
+
 	        //client-specific listeners
 	        socketio.on('pw_'+$rootScope.clientid, function(val) {
 	        	$rootScope.correctPassword = val;
@@ -145,7 +140,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        socketio.on('checkchan_'+$rootScope.clientid, function(bool) {
 	        	if(!bool) { //if channel doesn't exist, create a new one
 	        		var hash = !!$rootScope.newchannel.pw ? CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64) : undefined;
-		    		socketio.emit('pw', {msg: 'new', hash: hash, channel: $rootScope.newchannel.name, id: $rootScope.clientid });
+		    		socketio.emit('newpass', {hash: hash, channel: $rootScope.newchannel.name, id: $rootScope.clientid });
 					$rootScope.isCreator = true; //so you don't have to enter in password again
 					$location.search('channel', $rootScope.newchannel.name); //moving to new channel
 					$rootScope.newchannel = { //reset newchannel
@@ -161,6 +156,16 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        });
 	        //might be a good idea to use socket namespaces for channels...
 	        $rootScope.prevEventNames = ['personAdder_'+$rootScope.channel, 'personRemover_'+$rootScope.channel, 'pw_'+$rootScope.channel, 'checkchan_'+$rootScope.existingChannel.name]
+		};
+
+		$rootScope.updateChannel = function() {
+			speak.updateChannel();
+			$rootScope.channel = $location.search().channel || 'default';
+			$rootScope.people = speak.query();
+			$rootScope.history = speak.queryHistory();
+			$rootScope.retrievePW();
+			$rootScope.reinitSockets();
+			$rootScope.CCAlert();
 		};
 
         $rootScope.updateChannel();
