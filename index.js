@@ -46,13 +46,12 @@ io.on('connection', function (socket) {
 		if(res.msg === 'checkpass') {
 			console.log('checking db');
 			console.log('GOT PASS HASH: ' + pwstore[res.channel] + ' FOR CHANNEL: ' + res.channel);
-			socket.emit('pw_'+res.channel, pwstore[res.channel]);
-			return;
+			socket.emit('pw_'+res.clientid, pwstore[res.channel]);
 		}
 		if(res.msg === 'checkchan') {
 			console.log('checking if channel ' + res.channel + ' exists');
-			socket.emit('checkchan_'+res.channel, existingChannels[res.channel]);
-			console.log('channel availability is ' + existingChannels[res.channel]);
+			socket.emit('checkchan_'+res.clientid, !!existingChannels[res.channel]);
+			console.log('channel taken: ' + !!existingChannels[res.channel]);
 		}
 	});
 	socket.on('disconnect', function() {

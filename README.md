@@ -18,12 +18,9 @@ To run on your local machine:
 As an added bonus, I would recommend you to get <a href='https://github.com/remy/nodemon'>nodemon</a>, which is really useful if you plan on tweaking/modifying this web app (which you probably would be doing if you're running this on your local machine).
 
 To do:
-- Make use of client id in socket listeners
 - Admin permissions
 	- Authentication for removing people from the list (use `$rootScope.isCreator`)
-- need to organize code... (alerts, socket event listeners, etc)
-- Client ID, specific to each client
-- Prevent creating channels that already exist (create a `existingChannels` dict and set `createdChannels : true` )
+- _need to organize code... (alerts, socket event listeners, etc)_
 - Remove channels after x minutes of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)
 - Link to a backend db/redis if you need to scale
