@@ -36,7 +36,7 @@ To do:
 - Admin permissions
 	- Authentication for removing people from the list (use `$rootScope.isCreator`)
 	- Option to hide poll results from non-admin
-- Option to 
+- Option to have multi-select/checkboxes instead of text
 - Switch to React
 
 Known Bugs:
