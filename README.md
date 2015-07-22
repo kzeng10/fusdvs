@@ -21,6 +21,8 @@ To do:
 - Admin permissions
 	- Authentication for removing people from the list (use `$rootScope.isCreator`)
 - <b>need to organize code... (alerts, socket event listeners, etc)</b>
+- Move checking passwords to backend
+- Refresh the channel page _after_ password is entered (checkPW should return a boolean for whether the channel has a password...)
 - Remove channels after x minutes of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)
 - Link to a backend db/redis if you need to scale
