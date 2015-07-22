@@ -17,19 +17,26 @@ To run on your local machine:
 
 As an added bonus, I would recommend you to get <a href='https://github.com/remy/nodemon'>nodemon</a>, which is really useful if you plan on tweaking/modifying this web app (which you probably would be doing if you're running this on your local machine).
 
+Good use cases:
+- Quick, simple, no-strings-attached polling. 
+- Attendance to meetings, events, etc.
+- What to eat/order for meals
+
+
 To do:
-- Admin permissions
-	- Authentication for removing people from the list (use `$rootScope.isCreator`)
-- <b>need to organize code... (alerts, socket event listeners, etc)</b>
-- Move checking passwords to backend
-- Refresh the channel page _after_ password is entered (checkPW should return a boolean for whether the channel has a password...)
-- Remove channels after x minutes of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
+- Move checking passwords to backend (checkPW() should return a boolean for whether the channel has a password, and hash should be sent to backend and boolean returned)
+- Refresh the channel page _after_ password is entered (because user can simply go into console and hide the modal)
+- Remove channels after x time of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)
+- <b>need to organize code... (alerts, socket event listeners, etc)</b>
 - Link to a backend db/redis if you need to scale
 	- will need to re-figure out how to do timing out inactive channels
 	- refer to known bugs for reason why I'm pushing this off for the future
 - Mobile-friendly...
-- (Likely separate fork) put the list of people in a separate admin page (with password) and adding names to another page
+- Admin permissions
+	- Authentication for removing people from the list (use `$rootScope.isCreator`)
+	- Option to hide poll results from non-admin
+- Option to 
 - Switch to React
 
 Known Bugs:
