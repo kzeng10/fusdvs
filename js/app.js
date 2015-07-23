@@ -21,7 +21,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			focus: false
 		};
 		$rootScope.entered = {
-			pw: ''
+			pw: '',
+			focus: false
 		};
 		$rootScope.isCreator = false; 
 		$rootScope.authorized = false;
@@ -97,6 +98,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 
 		$rootScope.checkPW = function() {
 			var enteredhash = CryptoJS.SHA512($rootScope.entered.pw).toString(CryptoJS.enc.Base64);
+			$rootScope.entered.pw = '';
 			console.log("CHECKING: " + enteredhash);
 			socketio.emit('checkpass', {channel: $rootScope.channel, id: $rootScope.clientid, hash: enteredhash});
 		};
@@ -255,7 +257,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		return function (scope, element, attrs) {
 	        $document.bind("keydown keypress", function (e) {
 	        	var keycode = (!!e.keyCode ? e.keyCode : e.which).toString();
-	            if(keycode === '13' && !!scope.selectedPerson && !scope.newchannel.focus && !scope.existingChannel.focus) {
+	            if(keycode === '13' && !!scope.selectedPerson && !scope.newchannel.focus && !scope.existingChannel.focus && !scope.entered.focus) {
 	                scope.$apply(function (){
 	                    scope.$eval(attrs.onEnter);
 	                });

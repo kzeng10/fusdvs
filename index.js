@@ -57,8 +57,8 @@ io.on('connection', function (socket) {
 	socket.on('checkchan', function(res) {
 		console.log(res);
 		console.log('checking if channel ' + res.channel + ' exists');
-		socket.emit('checkchan_'+res.clientid, !!existingChannels[res.channel]);
 		console.log('channel taken: ' + !!existingChannels[res.channel]);
+		socket.emit('checkchan_'+res.clientid, !!existingChannels[res.channel]);
 	});
 	socket.on('disconnect', function() {
 		console.log('A client disconnected.');

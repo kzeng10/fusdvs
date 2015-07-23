@@ -32,6 +32,7 @@ To do:
 	- will need to re-figure out how to do timing out inactive channels
 	- refer to known bugs for reason why I'm pushing this off for the future
 - Mobile-friendly...
+- Auto-focus on text fields
 - Admin permissions
 	- Authentication for removing people from the list (use `$rootScope.isCreator`)
 	- Option to hide poll results from non-admin

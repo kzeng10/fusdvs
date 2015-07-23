@@ -54,7 +54,7 @@
 			<div class="col-md-4 col-md-offset-4">
 				<div ng-show='showChannelTakenAlert' class="alert alert-danger alert-dismissible" role="alert">
 					<div class="text-center">
-						Sorry, the channel <strong>{{existingChannel.name}}</strong> is already taken.
+						Sorry, the channel <strong>{{newchannel.name}}</strong> is already taken.
 					</div>
 				</div>
 			</div>
@@ -158,7 +158,7 @@
 	<modal title="Enter password" visible='!authorized' class='text-center' id='myModal'>
 	    <form role="form" ng-submit="checkPW()">
 	      	<div class="form-group">
-	        	<input type="password" class="form-control" id="password" placeholder="Password" ng-model='entered.pw'></input>
+	        	<input type="password" class="form-control" id="password" placeholder="Password" ng-model='entered.pw' ng-focus='entered.focus=true' ng-blur='entered.focus=false'></input>
 	    	</div>
 	    	<div class="container-fluid">
 	    		<!-- needs fading in/out for alerts... -->
