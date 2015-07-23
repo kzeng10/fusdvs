@@ -42,11 +42,17 @@ io.on('connection', function (socket) {
 		existingChannels[res.channel] = true;
 		console.log('SET: ' + res.hash + ' FOR CHANNEL: ' + res.channel);
 	});
-	socket.on('checkpass', function(res) {
+	socket.on('getpass', function(res) {
 		console.log(res);
 		console.log('checking db');
 		console.log('GOT PASS HASH: ' + pwstore[res.channel] + ' FOR CHANNEL: ' + res.channel);
-		socket.emit('pw_'+res.clientid, pwstore[res.channel]);
+		socket.emit('getpass_'+res.clientid, pwstore[res.channel]);
+	});
+	socket.on('checkpass', function(res) {
+		console.log(res);
+		console.log('checking pass hash');
+		console.log('PASS HASH FOR CLIENT ' + res.clientid + ' and is ' + (res.hash === pwstore[res.channel]));
+		socket.emit('checkpass_'+res.clientid, res.hash === pwstore[res.channel]);
 	});
 	socket.on('checkchan', function(res) {
 		console.log(res);

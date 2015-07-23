@@ -24,7 +24,6 @@ Good use cases:
 
 
 To do:
-- Move checking passwords to backend (checkPW() should return a boolean for whether the channel has a password, and hash should be sent to backend and boolean returned)
 - Refresh the channel page _after_ password is entered (because user can simply go into console and hide the modal)
 - Remove channels after x time of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)

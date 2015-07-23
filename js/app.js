@@ -69,8 +69,14 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				$rootScope.showChannelTakenAlert = false;
 			}, 3000);
 		};
+		$rootScope.IncPasswordAlert = function() {
+			$rootScope.showPWAlert = true;
+			$timeout(function() {
+				$rootScope.showPWAlert = false;
+			}, 3000);
+		};
 		$rootScope.retrievePW = function() {
-			socketio.emit('checkpass', {channel: $rootScope.channel, id: $rootScope.clientid});
+			socketio.emit('getpass', {channel: $rootScope.channel, id: $rootScope.clientid});
 		};
 
 		//TODO: merge following two functions
@@ -92,22 +98,14 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 		$rootScope.checkPW = function() {
 			var enteredhash = CryptoJS.SHA512($rootScope.entered.pw).toString(CryptoJS.enc.Base64);
 			console.log("CHECKING: " + enteredhash);
-			if(enteredhash === $rootScope.correctPassword) {
-				//entry granted
-				$rootScope.authorized = true;
-			}
-			else{
-				$rootScope.showPWAlert = true;
-				$timeout(function() {
-					$rootScope.showPWAlert = false;
-				}, 3000);
-			}
-			
+			socketio.emit('checkpass', {channel: $rootScope.channel, id: $rootScope.clientid, hash: enteredhash});
 		};
 		$rootScope.reinitSockets = function() {
+			//clear listeners
 			$rootScope.prevEventNames.forEach(function(eventName) {
 				socketio.removeListener(eventName);
 			});
+			//get clientid
 			socketio.on('clientid', function(clientid) {
 				$rootScope.clientid = clientid;
 				console.log('got clientid: ' + clientid);
@@ -133,7 +131,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 
 
 	        //client-specific listeners
-	        socketio.on('pw_'+$rootScope.clientid, function(val) {
+	        socketio.on('getpass_'+$rootScope.clientid, function(val) {
 	        	$rootScope.correctPassword = val;
 	        	$rootScope.authorized = !!!val || $rootScope.isCreator;
 	        });
@@ -152,6 +150,15 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        	}
 	        	else{
 	        		$rootScope.ChannelTakenAlert();
+	        	}
+	        });
+	        socketio.on('checkpass_'+$rootScope.clientid, function(bool) {
+	        	if(bool) {
+	        		//entry granted
+					$rootScope.authorized = true;
+	        	}
+	        	else {
+	        		$rootScope.IncPasswordAlert();
 	        	}
 	        });
 	        //might be a good idea to use socket namespaces for channels...
