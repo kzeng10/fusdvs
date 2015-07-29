@@ -24,6 +24,7 @@ Good use cases:
 
 
 To do:
+- Combine createChannel with goToExistingChannel
 - Refresh the channel page _after_ password is entered (because user can simply go into console and hide the modal)
 - Remove channels after x time of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)
