@@ -42,11 +42,11 @@ io.on('connection', function (socket) {
 		existingChannels[res.channel] = true;
 		console.log('SET: ' + res.hash + ' FOR CHANNEL: ' + res.channel);
 	});
-	socket.on('getpass', function(res) {
+	socket.on('haspass', function(res) {
 		console.log(res);
 		console.log('checking db');
-		console.log('GOT PASS HASH: ' + pwstore[res.channel] + ' FOR CHANNEL: ' + res.channel);
-		socket.emit('getpass_'+res.clientid, pwstore[res.channel]);
+		console.log('CHANNEL: ' + res.channel + ' DOES ' + (!!pwstore[res.channel] ? '':'NOT ') + 'HAVE A PASSWORD');
+		socket.emit('haspass_'+res.clientid, !!pwstore[res.channel]);
 	});
 	socket.on('checkpass', function(res) {
 		console.log(res);
@@ -55,10 +55,25 @@ io.on('connection', function (socket) {
 		socket.emit('checkpass_'+res.clientid, res.hash === pwstore[res.channel]);
 	});
 	socket.on('checkchan', function(res) {
+		//if channel doesn't exist:
+		//	add channel : password to dict
+		//	return bool: true
+		//if channel does exist:
+		//	if password matches:
+		//		return bool: true
+		//	else:
+		//		return bool: false
 		console.log(res);
-		console.log('checking if channel ' + res.channel + ' exists');
-		console.log('channel taken: ' + !!existingChannels[res.channel]);
-		socket.emit('checkchan_'+res.clientid, !!existingChannels[res.channel]);
+		console.log('checkchan_'+res.clientid);
+		if(!!!existingChannels[res.channel]) {
+			pwstore[res.channel] = res.hash;
+			existingChannels[res.channel] = true;
+			socket.emit('checkchan_'+res.clientid, true);
+		}
+		else {
+			socket.emit('checkchan_'+res.clientid, res.hash === pwstore[res.channel]);
+		}
+		// socket.emit('checkchan_'+res.clientid, {bool: !!existingChannels[res.channel]});
 	});
 	socket.on('disconnect', function() {
 		console.log('A client disconnected.');

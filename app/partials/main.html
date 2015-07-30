@@ -26,24 +26,15 @@
 	<hr> 
 	 
   	<div class="row">
-  		<div class="col-md-6">
+  		<div class="col-md-12">
   			<div class="text-center">
-				<form class="form-inline" ng-submit="goToNewChannel()">
-					<label for="newChannel">New Channel: </label>
-					<input type="text" id='newChannel' placeholder="New channel" ng-model='newchannel.name' class="form-control" ng-focus='newchannel.focus=true' ng-blur='newchannel.focus=false'>
-					<input type="password" id='newChannelPW' placeholder="Password (optional)" ng-model='newchannel.pw' class="form-control" ng-focus='newchannel.focus=true' ng-blur='newchannel.focus=false'>
+				<form class="form-inline" ng-submit="changeChannel()">
+					<label for="newChannel">Change Channel: </label>
+					<input type="text" id='newChannel' placeholder="Channel name" ng-model='newchannel.name' class="form-control" ng-focus='newchannel.focus=true' ng-blur='newchannel.focus=false'>
+					<input type="password" id='newChannelPW' placeholder="Password (optional)" ng-model='newchannel.pw' class="form-control" ng-focus='newchannel.pwfocus=true' ng-blur='newchannel.pwfocus=false'>
 					<input type="submit" class="btn btn-primary" value="Go"></input>
 				</form>
 			</div>
-  		</div>
-  		<div class="col-md-6">
-  			<div class="text-center">
-  				<form class="form-inline" ng-submit="goToExistingChannel()">
-  					<label for="existingChannel">Go to channel: </label>
-  					<input type="text" class="form-control" placeholder='Channel' id='existingChannel' ng-model='existingChannel.name' ng-focus='existingChannel.focus=true' ng-blur='existingChannel.focus=false'>
-  					<input type="submit" class="btn btn-primary" value="Go"></input>
-  				</form>
-  			</div>
   		</div>
   		
   	</div>
@@ -158,12 +149,12 @@
 	<modal title="Enter password" visible='!authorized' class='text-center' id='myModal'>
 	    <form role="form" ng-submit="checkPW()">
 	      	<div class="form-group">
-	        	<input type="password" class="form-control" id="password" placeholder="Password" ng-model='entered.pw' ng-focus='entered.focus=true' ng-blur='entered.focus=false'></input>
+	        	<input type="password" class="form-control" id="password" placeholder="Password" ng-model='modal.pw' ng-focus='modal.focus=true' ng-blur='modal.focus=false'></input>
 	    	</div>
 	    	<div class="container-fluid">
 	    		<!-- needs fading in/out for alerts... -->
 	    		<div class="row">
-					<div ng-show='showPWAlert' class="alert alert-danger alert-dismissible" role="alert">
+					<div ng-show='showModalPWAlert' class="alert alert-danger alert-dismissible" role="alert">
 						<div class="text-center">
 							<strong>Incorrect password.</strong> Please try again.
 						</div>
