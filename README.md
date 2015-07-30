@@ -24,7 +24,7 @@ Good use cases:
 
 
 To do:
-- Fix bug with creating channel w/ password
+- Channel taken error, incorrect password error
 - Remove channels after x time of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)
 - <b>need to organize code... (alerts, socket event listeners, etc)</b>

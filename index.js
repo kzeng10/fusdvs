@@ -51,7 +51,7 @@ io.on('connection', function (socket) {
 	socket.on('checkpass', function(res) {
 		console.log(res);
 		console.log('checking pass hash');
-		console.log('PASS HASH FOR CLIENT ' + res.clientid + ' and is ' + (res.hash === pwstore[res.channel]));
+		console.log('PASS HASH FOR CLIENT ' + res.clientid + ' is ' + (res.hash === pwstore[res.channel]));
 		socket.emit('checkpass_'+res.clientid, res.hash === pwstore[res.channel]);
 	});
 	socket.on('checkchan', function(res) {
@@ -67,13 +67,13 @@ io.on('connection', function (socket) {
 		console.log('checkchan_'+res.clientid);
 		if(!!!existingChannels[res.channel]) {
 			pwstore[res.channel] = res.hash;
+			console.log(res.hash);
 			existingChannels[res.channel] = true;
 			socket.emit('checkchan_'+res.clientid, true);
 		}
 		else {
 			socket.emit('checkchan_'+res.clientid, res.hash === pwstore[res.channel]);
 		}
-		// socket.emit('checkchan_'+res.clientid, {bool: !!existingChannels[res.channel]});
 	});
 	socket.on('disconnect', function() {
 		console.log('A client disconnected.');

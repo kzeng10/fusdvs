@@ -1,7 +1,10 @@
 angular.module('testApp', ['testAppdata', 'ngRoute'])
 	.config(function($routeProvider, $locationProvider){
 			$routeProvider
-			.when('/',{templateUrl:'partials/main.html'})
+			.when('/',{
+				templateUrl:'partials/main.html',
+				reloadOnSearch: false
+			})
 			//when('/view/:id',{templateUrl:'/partials/view.html',controller:'viewController'}).
 			.otherwise({redirectTo:'/'});
 			$locationProvider.html5Mode(true);
@@ -76,7 +79,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			socketio.emit('haspass', {channel: $rootScope.channel, clientid: $rootScope.clientid});
 		};
 		$rootScope.checkPW = function() {
-			var enteredhash = CryptoJS.SHA512($rootScope.entered.pw).toString(CryptoJS.enc.Base64);
+			var enteredhash = CryptoJS.SHA512($rootScope.modal.pw).toString(CryptoJS.enc.Base64);
 			console.log("CHECKING: " + enteredhash);
 			socketio.emit('checkpass', {channel: $rootScope.channel, clientid: $rootScope.clientid, hash: enteredhash});
 		};
@@ -134,8 +137,9 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        socketio.on('checkchan_'+$rootScope.clientid, function(bool) {
 	        	if(bool) { 
 	        		console.log("granted!");
-	        		//entry granetd
+	        		//entry granted
 					$location.search('channel', $rootScope.newchannel.name); //moving to new channel
+					$rootScope.authorized = true;
 					$rootScope.newchannel = { //reset newchannel
 						pw: '',
 						name: '',
@@ -151,11 +155,11 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 	        socketio.on('checkpass_'+$rootScope.clientid, function(bool) {
 	        	if(bool) {
 	        		//entry granted
-	        		$rootScope.entered.pw = '';
+	        		$rootScope.modal.pw = '';
 					$rootScope.authorized = true; //once true always true
 	        	}
 	        	else {
-	        		$rootScope.IncPasswordAlert();
+	        		$rootScope.ModalIncPasswordAlert();
 	        	}
 	        });
 	        //might be a good idea to use socket namespaces for channels...
