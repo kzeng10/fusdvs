@@ -133,6 +133,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 						name: '',
 						focus: false
 					};
+					$rootScope.selectedPerson = '';
 					$rootScope.updateChannel();
 	        	}
 	        	else{
