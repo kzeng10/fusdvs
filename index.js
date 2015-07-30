@@ -55,14 +55,6 @@ io.on('connection', function (socket) {
 		socket.emit('checkpass_'+res.clientid, res.hash === pwstore[res.channel]);
 	});
 	socket.on('checkchan', function(res) {
-		//if channel doesn't exist:
-		//	add channel : password to dict
-		//	return bool: true
-		//if channel does exist:
-		//	if password matches:
-		//		return bool: true
-		//	else:
-		//		return bool: false
 		console.log(res);
 		console.log('checkchan_'+res.clientid);
 		if(!!!existingChannels[res.channel]) {

@@ -56,6 +56,8 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 
 
 		//client specific functions
+		
+		//alerts
 		$rootScope.CCAlert = function() {
 			$rootScope.showCCAlert = true;
 			$timeout(function() {
@@ -74,6 +76,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 				$rootScope.showModalPWAlert = false;
 			}, 3000);
 		};
+
 		//only need to retrievePW() on load, no need thereafter
 		$rootScope.retrievePW = function() {
 			socketio.emit('haspass', {channel: $rootScope.channel, clientid: $rootScope.clientid});
@@ -84,21 +87,6 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			socketio.emit('checkpass', {channel: $rootScope.channel, clientid: $rootScope.clientid, hash: enteredhash});
 		};
 
-		//TODO: merge following two functions
-		// $rootScope.goToNewChannel = function() {
-		// 	//check if channel already exists with this name, go to checkchan listener
-		// 	socketio.emit('checkchan', {channel: $rootScope.newchannel.name, id: $rootScope.clientid});
-			
-		// };
-		// $rootScope.goToExistingChannel = function() {
-		// 	$location.search('channel', $rootScope.existingChannel.name);
-		// 	$rootScope.isCreator = false;
-		// 	$rootScope.existingChannel = {
-		// 		name: '',
-		// 		focus: false
-		// 	};
-		// 	$rootScope.updateChannel();
-		// };
 		$rootScope.changeChannel = function() {
 			var enteredhash = !!$rootScope.newchannel.pw ? CryptoJS.SHA512($rootScope.newchannel.pw).toString(CryptoJS.enc.Base64) : undefined;
 			console.log("CHANGING TO CHANNEL: " + $rootScope.newchannel.name);
