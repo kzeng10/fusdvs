@@ -42,10 +42,10 @@
   	<div class="container-fluid">
 		<!-- needs better spacing fading in/out for alerts... -->
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
+			<div class="col-md-8 col-md-offset-2">
 				<div ng-show='showChannelTakenAlert' class="alert alert-danger alert-dismissible" role="alert">
 					<div class="text-center">
-						Sorry, the channel <strong>{{newchannel.name}}</strong> is already taken.
+						Sorry, either the channel <strong>{{ChannelTakenAlertChannel}}</strong> is already taken or you have entered an incorrect password.
 					</div>
 				</div>
 			</div>

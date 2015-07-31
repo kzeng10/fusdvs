@@ -65,6 +65,7 @@ angular.module('testApp', ['testAppdata', 'ngRoute'])
 			}, 3000);
 		};
 		$rootScope.ChannelTakenAlert = function() {
+			$rootScope.ChannelTakenAlertChannel = $rootScope.newchannel.name;
 			$rootScope.showChannelTakenAlert = true;
 			$timeout(function() {
 				$rootScope.showChannelTakenAlert = false;
