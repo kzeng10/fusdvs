@@ -24,6 +24,8 @@ Good use cases:
 
 
 To do:
+- Only creator should be able to remove names
+- People can't vote more than once, so only allow requests to go through if their name isn't already in the list
 - Remove channels after x time of inactivity (set speak, history, pwstore, existingChannels to false/undefined, `setTimeout`, and `clearTimeout` and `setTimeout` again for each new interaction)
 - Use socket namespaces for channels (look at comment in app.js)
 - <b>need to organize code... (alerts, socket event listeners, etc)</b>
