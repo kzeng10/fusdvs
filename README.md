@@ -38,6 +38,7 @@ To do:
 	- Authentication for removing people from the list (use `$rootScope.isCreator`)
 	- Option to hide poll results from non-admin
 - Option to have multi-select/checkboxes instead of text
+- iOS/Android companion app!
 - Switch to React
 
 Known Bugs:
